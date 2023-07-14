@@ -4,7 +4,7 @@ A stripped down Vimwiki for neovim
 ## Feature List:
 - [x] Setup Wiki path
 - [x] Open Wiki Index
-- [ ] Create new wiki files
+- [x] Create new wiki files
 - [x] Open Diary Index
 - [ ] Open today's Diary
 - [ ] Open yesterday's Diary
