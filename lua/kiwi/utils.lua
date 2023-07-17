@@ -35,4 +35,45 @@ M.ensure_directories = function(wiki_path)
   end
 end
 
+-- Set window specific keymaps
+M.set_buf_keymaps = function(bufnr)
+  local opts = { noremap = true, silent = true, nowait = true }
+  local bufvmap = function(lhs, rhs)
+    vim.api.nvim_buf_set_keymap(bufnr, "v", lhs, rhs, opts)
+  end
+  local bufnmap = function(lhs, rhs)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", lhs, rhs, opts)
+  end
+  vim.wo.conceallevel = 2
+  bufvmap("<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>")
+  bufnmap("<CR>", ":lua require(\"kiwi\").open_link()<CR>")
+  bufnmap("<Leader>x", ":lua require(\"kiwi\").toggle_todo()<CR>")
+end
+
+-- Check if the cursor is on a link on the line
+M.is_link = function(cursor, line)
+  local filename_bounds = {}
+  for i = cursor[2], 0, -1 do
+    if (line:sub(i, i) == "]") then
+      return nil
+    end
+    if (line:sub(i, i) == "[") then
+      filename_bounds[1] = i + 1
+      break
+    end
+  end
+  for i = cursor[2] + 2, line:len(), 1 do
+    if (line:sub(i, i) == "[") then
+      return nil
+    end
+    if (line:sub(i, i) == "]") then
+      filename_bounds[2] = i - 1
+      break
+    end
+  end
+  if (filename_bounds[1] ~= nil and filename_bounds[2] ~= nil) then
+    return line:sub(unpack(filename_bounds))
+  end
+end
+
 return M

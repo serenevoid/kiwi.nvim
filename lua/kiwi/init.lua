@@ -15,21 +15,6 @@ M.setup = function(opts)
   utils.ensure_directories(config.get("path"))
 end
 
--- Set window specific keymaps
-local set_buf_keymaps = function(bufnr)
-    local opts = { noremap = true, silent = true, nowait = true }
-    local bufvmap = function(lhs, rhs)
-        vim.api.nvim_buf_set_keymap(bufnr, "v", lhs, rhs, opts)
-    end
-    local bufnmap = function(lhs, rhs)
-        vim.api.nvim_buf_set_keymap(bufnr, "n", lhs, rhs, opts)
-    end
-    vim.wo.conceallevel = 2
-    bufvmap("<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>")
-    bufnmap("<CR>", ":lua require(\"kiwi\").open_link()<CR>")
-    bufnmap("<Leader>x",":lua require(\"kiwi\").toggle_todo()<CR>")
-end
-
 -- Open wiki index file in the current tab
 M.open_wiki_index = function()
   if config.get("path") == "" then
@@ -38,7 +23,7 @@ M.open_wiki_index = function()
   local wiki_index_path = config.get("path") .. sep .. "index.md"
   local buffer_number = vim.fn.bufnr(wiki_index_path, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
-  set_buf_keymaps(0)
+  utils.set_buf_keymaps(0)
 end
 
 -- Open diary index file in the current tab
@@ -49,7 +34,7 @@ M.open_diary_index = function()
   local diary_index_path = config.get("path") .. sep .. "diary" .. sep .. "index.md"
   local buffer_number = vim.fn.bufnr(diary_index_path, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
-  set_buf_keymaps(0)
+  utils.set_buf_keymaps(0)
 end
 
 -- Create a new Wiki entry in Journal folder on highlighting word and pressing <CR>
@@ -70,7 +55,21 @@ M.create_or_open_wiki_file = function()
   vim.api.nvim_set_current_line(newline)
   local buffer_number = vim.fn.bufnr(config.get("path") .. sep .. filename, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
-  set_buf_keymaps(buffer_number)
+  utils.set_buf_keymaps(buffer_number)
+end
+
+M.open_link = function()
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local line = vim.fn.getline(cursor[1])
+  local filename = utils.is_link(cursor, line)
+  if (filename ~= nil and filename:len() > 1) then
+    filename = filename:gsub(" ", "_")
+    local bufnr = vim.fn.bufnr(config.get("path") .. sep .. filename .. ".md", true)
+    if bufnr ~= -1 then
+      vim.api.nvim_win_set_buf(0, bufnr)
+      utils.set_buf_keymaps(bufnr)
+    end
+  end
 end
 
 return M
