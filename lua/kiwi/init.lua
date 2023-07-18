@@ -34,7 +34,6 @@ M.open_diary_index = function()
   local diary_index_path = config.get("path") .. sep .. "diary" .. sep .. "index.md"
   local buffer_number = vim.fn.bufnr(diary_index_path, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
-  utils.set_buf_keymaps(0)
 end
 
 -- Create a new Wiki entry in Journal folder on highlighting word and pressing <CR>
