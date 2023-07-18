@@ -58,8 +58,8 @@ M.open_link = function()
   local line = vim.fn.getline(cursor[1])
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
-    if (filename:sub(1,2) == "./") then
-      filename = config.get("path") .. filename:sub(2,-1)
+    if (filename:sub(1, 2) == "./") then
+      filename = config.get("path") .. filename:sub(2, -1)
     end
     local bufnr = vim.fn.bufnr(filename, true)
     if bufnr ~= -1 then
@@ -69,6 +69,24 @@ M.open_link = function()
   else
     vim.print("E: Cannot find file")
   end
+end
+
+M.open_diary_new = function()
+  if config.get("path") == "" then
+    M.setup()
+  end
+  local offset
+  vim.ui.input({ prompt = 'Date Offset:\n* Positive values for future diary\n* Negative values for past diaries\nOffset Value: ' }, function(input)
+    offset = tonumber(input)
+  end)
+  local date = os.date("%Y%m%d")
+  if offset ~= nil then
+    local date_value = tonumber(date)
+    date = tostring(date_value + offset)
+  end
+  local filepath = config.get("path") .. sep .. "diary" .. sep .. date .. ".md"
+  local bufnr = vim.fn.bufnr(filepath, true)
+  vim.api.nvim_win_set_buf(0, bufnr)
 end
 
 return M
