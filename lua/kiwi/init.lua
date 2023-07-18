@@ -58,6 +58,9 @@ M.open_link = function()
   local line = vim.fn.getline(cursor[1])
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
+    if (filename:sub(1,2) == "./") then
+      filename = config.get("path") .. filename:sub(2,-1)
+    end
     local bufnr = vim.fn.bufnr(filename, true)
     if bufnr ~= -1 then
       vim.api.nvim_win_set_buf(0, bufnr)
