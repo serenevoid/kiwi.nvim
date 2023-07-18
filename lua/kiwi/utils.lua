@@ -53,20 +53,31 @@ end
 -- Check if the cursor is on a link on the line
 M.is_link = function(cursor, line)
   local filename_bounds = {}
+  local found_opening = false
   for i = cursor[2], 0, -1 do
-    if (line:sub(i, i) == "]") then
+    if (line:sub(i, i) == ")") then
       return nil
     end
-    if (line:sub(i, i) == "[") then
+    if (line:sub(i, i) == "(") then
       filename_bounds[1] = i + 1
       break
     end
+    if (line:sub(i, i) == "[") then
+      found_opening = true
+      break
+    end
+  end
+  if not found_opening then
+    return nil
   end
   for i = cursor[2] + 2, line:len(), 1 do
     if (line:sub(i, i) == "[") then
       return nil
     end
-    if (line:sub(i, i) == "]") then
+    if (line:sub(i, i) == "(") then
+      filename_bounds[1] = i + 1
+    end
+    if (line:sub(i, i) == ")") then
       filename_bounds[2] = i - 1
       break
     end

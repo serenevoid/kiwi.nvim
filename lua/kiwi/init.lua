@@ -44,11 +44,7 @@ M.create_or_open_wiki_file = function()
   local name = line[1]:sub(selection_start[3], selection_end[3])
   local filename = name:gsub(" ", "_"):gsub("\\", "") .. ".md"
   local new_mkdn = "[" .. name .. "]"
-  if string.find(vim.api.nvim_buf_get_name(0), "/diary/") then
-    new_mkdn = new_mkdn .. "(../" .. filename .. ")"
-  else
-    new_mkdn = new_mkdn .. "(./" .. filename .. ")"
-  end
+  new_mkdn = new_mkdn .. "(./" .. filename .. ")"
   local newline = line[1]:sub(0, selection_start[3] - 1) ..
       new_mkdn .. line[1]:sub(selection_end[3] + 1, string.len(line[1]))
   vim.api.nvim_set_current_line(newline)
@@ -62,12 +58,13 @@ M.open_link = function()
   local line = vim.fn.getline(cursor[1])
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
-    filename = filename:gsub(" ", "_")
-    local bufnr = vim.fn.bufnr(config.get("path") .. sep .. filename .. ".md", true)
+    local bufnr = vim.fn.bufnr(filename, true)
     if bufnr ~= -1 then
       vim.api.nvim_win_set_buf(0, bufnr)
       utils.set_buf_keymaps(bufnr)
     end
+  else
+    vim.print("E: Cannot find file")
   end
 end
 
