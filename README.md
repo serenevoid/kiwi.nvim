@@ -7,6 +7,4 @@ A stripped down Vimwiki for neovim
 - [x] Create new wiki files
 - [x] Open Diary Index
 - [x] Open custom date Diary
-- [ ] Auto-generate Diary Index
-- [ ] Wiki and Diary templates
-- [ ] Custom command to push wiki to cloud
+- [x] Auto-generate Diary Index
