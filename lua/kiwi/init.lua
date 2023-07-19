@@ -89,4 +89,26 @@ M.open_diary_new = function()
   vim.api.nvim_win_set_buf(0, bufnr)
 end
 
+M.generate_diary_index = function ()
+  --[[
+  local function list_directory(path)
+      local dir = vim.loop.fs_scandir(path)
+      local files = {}
+      while true do
+          local name, type = vim.loop.fs_scandir_next(dir)
+          if not name then
+              break
+          end
+          local file = {
+              name = name,
+              type = type
+          }
+          table.insert(files, file)
+      end
+      vim.loop.fs_scandir_close(dir)
+      return files
+  end
+  ]]
+end
+
 return M
