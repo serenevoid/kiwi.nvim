@@ -23,7 +23,10 @@ M.open_wiki_index = function()
   local wiki_index_path = config.get("path") .. sep .. "index.md"
   local buffer_number = vim.fn.bufnr(wiki_index_path, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
-  utils.set_buf_keymaps(0)
+  local opts = { noremap = true, silent = true, nowait = true }
+  vim.api.nvim_buf_set_keymap(0, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(0, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
+
 end
 
 -- Open diary index file in the current tab
@@ -50,21 +53,30 @@ M.create_or_open_wiki_file = function()
   vim.api.nvim_set_current_line(newline)
   local buffer_number = vim.fn.bufnr(config.get("path") .. sep .. filename, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
-  utils.set_buf_keymaps(buffer_number)
+  local opts = { noremap = true, silent = true, nowait = true }
+  vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
 end
 
-M.open_link = function()
+-- Open a link under the cursor
+M.open_link = function(isWiki)
   local cursor = vim.api.nvim_win_get_cursor(0)
   local line = vim.fn.getline(cursor[1])
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
+    local subfolder = "/diary"
+    if isWiki then
+      subfolder = ""
+    end
     if (filename:sub(1, 2) == "./") then
-      filename = config.get("path") .. filename:sub(2, -1)
+      filename = config.get("path") .. subfolder .. filename:sub(2, -1)
     end
     local bufnr = vim.fn.bufnr(filename, true)
     if bufnr ~= -1 then
       vim.api.nvim_win_set_buf(0, bufnr)
-      utils.set_buf_keymaps(bufnr)
+      local opts = { noremap = true, silent = true, nowait = true }
+      vim.api.nvim_buf_set_keymap(bufnr, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "<CR>", ":lua require(\"kiwi\").open_link(" .. tostring(isWiki) .. ")<CR>", opts)
     end
   else
     vim.print("E: Cannot find file")
