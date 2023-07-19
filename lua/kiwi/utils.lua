@@ -1,6 +1,6 @@
 local Path = require("plenary.path")
 
-local M = {}
+local utils = {}
 
 local home = ""
 
@@ -15,7 +15,7 @@ local get_home = function()
 end
 
 -- Get the default Wiki folder path
-M.get_wiki_path = function()
+utils.get_wiki_path = function()
   if home == "" then
     home = get_home()
   end
@@ -24,7 +24,7 @@ M.get_wiki_path = function()
 end
 
 -- Create wiki folder and the diary folder inside it
-M.ensure_directories = function(wiki_path)
+utils.ensure_directories = function(wiki_path)
   local path = Path:new(wiki_path)
   if not path:exists() then
     path:mkdir()
@@ -72,4 +72,20 @@ utils.is_link = function(cursor, line)
   end
 end
 
-return M
+-- List contents in a directory
+utils.list_directory = function(path)
+  local dir = vim.loop.fs_scandir(path)
+  local files = {}
+  while true do
+    local name, type = vim.loop.fs_scandir_next(dir)
+    if not name then
+      break
+    end
+    if (type == "file") then
+      table.insert(files, name)
+    end
+  end
+  return files
+end
+
+return utils
