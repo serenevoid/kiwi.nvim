@@ -34,9 +34,33 @@ M.open_diary_index = function()
   if config.get("path") == "" then
     M.setup()
   end
-  local diary_index_path = config.get("path") .. sep .. "diary" .. sep .. "index.md"
-  local buffer_number = vim.fn.bufnr(diary_index_path, true)
+  local diary_path = config.get("path") .. sep .. "diary"
+  local buffer_number = vim.fn.bufnr(diary_path .. sep .. "index.md", true)
   vim.api.nvim_win_set_buf(0, buffer_number)
+  local files = utils.list_directory(diary_path)
+  local months = { "January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December" }
+  local data = { "# Diary" }
+  local date = {}
+  for _, filename in ipairs(files) do
+    if (filename ~= "index.md") then
+      if (filename:sub(1, 4) ~= date[0]) then
+        table.insert(data, "")
+        date[0] = filename:sub(1, 4)
+        table.insert(data, "## " .. date[0])
+      end
+      if (filename:sub(5, 6) ~= date[1]) then
+        table.insert(data, "")
+        date[1] = filename:sub(5, 6)
+        table.insert(data, "### " .. months[tonumber(date[1])])
+      end
+      date[1] = filename:sub(5, 6)
+      table.insert(data, "[" .. filename:sub(1,8) .. "](./" .. filename .. ")")
+    end
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, data)
+  end
+  local opts = { noremap = true, silent = true, nowait = true }
+  vim.api.nvim_buf_set_keymap(0, "n", "<CR>", ":lua require(\"kiwi\").open_link(false)<CR>", opts)
 end
 
 -- Create a new Wiki entry in Journal folder on highlighting word and pressing <CR>
@@ -88,9 +112,11 @@ M.open_diary_new = function()
     M.setup()
   end
   local offset
-  vim.ui.input({ prompt = 'Date Offset:\n* Positive values for future diary\n* Negative values for past diaries\nOffset Value: ' }, function(input)
-    offset = tonumber(input)
-  end)
+  vim.ui.input(
+  { prompt = 'Date Offset:\n* Positive values for future diary\n* Negative values for past diaries\nOffset Value: ' },
+    function(input)
+      offset = tonumber(input)
+    end)
   local date = os.date("%Y%m%d")
   if offset ~= nil then
     local date_value = tonumber(date)
@@ -99,28 +125,6 @@ M.open_diary_new = function()
   local filepath = config.get("path") .. sep .. "diary" .. sep .. date .. ".md"
   local bufnr = vim.fn.bufnr(filepath, true)
   vim.api.nvim_win_set_buf(0, bufnr)
-end
-
-M.generate_diary_index = function ()
-  --[[
-  local function list_directory(path)
-      local dir = vim.loop.fs_scandir(path)
-      local files = {}
-      while true do
-          local name, type = vim.loop.fs_scandir_next(dir)
-          if not name then
-              break
-          end
-          local file = {
-              name = name,
-              type = type
-          }
-          table.insert(files, file)
-      end
-      vim.loop.fs_scandir_close(dir)
-      return files
-  end
-  ]]
 end
 
 return M
