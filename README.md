@@ -60,10 +60,10 @@ The result should look something like:
 
 ## Screenshots
 
-![Wiki Index View](doc/wiki_index.png)
-![Wiki View](doc/wiki.png)
-![Diary Index View](doc/entries.png)
-![Diary View](doc/todos.png)
+![Wiki Index View](https://drive.google.com/uc?export=view&id=1MV8FoMnuOhlyvHO9xVidyVWumjW_Wb3_)
+![Wiki View](https://drive.google.com/uc?export=view&id=1oCEC4D67gXOBte1WBhPhB_qaMJwVNsjP)
+![Diary Index View](https://drive.google.com/uc?export=view&id=1lRlcYsdEZcO9ZmcV84W-ZkCIqJmHRcTL)
+![Diary View](https://drive.google.com/uc?export=view&id=1vRE6doVCykXglti0vwDK3bh1o-N4KRWB)
 
 ## Installation
 
