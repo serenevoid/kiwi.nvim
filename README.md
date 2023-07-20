@@ -116,13 +116,26 @@ return {
 ## Usage
 
 ```lua
+
+-- Setup Custom wiki path if required
+local kiwi = require('kiwi').setup({
+    path = "/path/to/wiki"
+})
+
+-- Use default path (i.e. ~/wiki/)
 local kiwi = require('kiwi')
+
+-- Necessary keybindings
 vim.keymap.set('n', '<leader>ww', kiwi.open_wiki_index(), {})
 vim.keymap.set('n', '<leader>wd', kiwi.open_diary_index(), {})
 vim.keymap.set('n', '<leader>wn', kiwi.open_diary_new(), {})
 ```
 
-Note: Diary Index is auto-generated. Please avoid editing Diary index file.
+Note: 
+- Diary Index is auto-generated. Please avoid editing Diary index file.
+- When opening a new Diary page, a prompt will ask you for required offest in date.
+  Provide the number of days to be offset from today's date
+  Use positive values for future Diaries and negative for past
 
 ## Key bindings
 
