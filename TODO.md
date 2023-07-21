@@ -6,6 +6,7 @@
 - [x] Open custom date Diary
 - [x] Auto-generate Diary Index
 - [ ] Support multiple wikis
+- [ ] TODO toggle with parent and children check
 
 ## Test:
 - [x] Unix Compatible
