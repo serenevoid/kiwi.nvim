@@ -98,9 +98,7 @@ M.open_link = function(isWiki)
 end
 
 M.open_diary_new = function()
-  if config.path == "" then
-    M.setup()
-  end
+  load_wiki()
   local offset
   vim.ui.input(
   { prompt = 'Date Offset:\n* Positive values for future diary\n* Negative values for past diaries\nOffset Value: ' },

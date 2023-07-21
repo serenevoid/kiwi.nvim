@@ -118,8 +118,15 @@ return {
 ```lua
 
 -- Setup Custom wiki path if required
-local kiwi = require('kiwi').setup({
-    path = "/path/to/wiki"
+require('kiwi').setup({
+  {
+    name = "work",
+    path = "C:\\Users\\username\\personal-wiki" -- For Windows users
+  },
+  {
+    name = "personal",
+    path = "/home/username/personal-wiki"
+  }
 })
 
 -- Use default path (i.e. ~/wiki/)
