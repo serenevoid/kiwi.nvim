@@ -1,4 +1,4 @@
-# kiwi.nvim
+# kiwi.nvim 🥝
 
 - [Intro](#introduction)
 - [Screenshots](#screenshots)
