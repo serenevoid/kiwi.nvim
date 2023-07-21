@@ -5,7 +5,8 @@
 - [x] Open Diary Index
 - [x] Open custom date Diary
 - [x] Auto-generate Diary Index
+- [ ] Support multiple wikis
 
 ## Test:
-- [ ] Unix Compatible
-- [ ] Windows Compatible
+- [x] Unix Compatible
+- [x] Windows Compatible
