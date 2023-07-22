@@ -2,8 +2,11 @@ local Path = require("plenary.path")
 local sep = Path.path.sep
 local config = require("kiwi.config")
 local utils = require("kiwi.utils")
+local todo = require("kiwi.todo")
 
 local M = {}
+
+M.todo = todo
 
 -- Setup wiki folder
 M.setup = function(opts)
@@ -15,6 +18,7 @@ M.setup = function(opts)
   utils.ensure_directories(config)
 end
 
+-- Show prompt if multiple wiki path found or else choose default path
 local load_wiki = function ()
   if config.folders ~= nil then
     local count = 0
@@ -39,6 +43,7 @@ M.open_wiki_index = function()
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-x>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
 end
 
 -- Open diary index file in the current tab
@@ -70,6 +75,7 @@ M.create_or_open_wiki_file = function()
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-x>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
 end
 
 -- Open a link under the cursor
@@ -111,8 +117,10 @@ M.open_diary_new = function()
     date = tostring(date_value + offset)
   end
   local filepath = config.path .. sep .. "diary" .. sep .. date .. ".md"
-  local bufnr = vim.fn.bufnr(filepath, true)
-  vim.api.nvim_win_set_buf(0, bufnr)
+  local buffer_number = vim.fn.bufnr(filepath, true)
+  vim.api.nvim_win_set_buf(0, buffer_number)
+  local opts = { noremap = true, silent = true, nowait = true }
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-x>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
 end
 
 return M
