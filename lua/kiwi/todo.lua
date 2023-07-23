@@ -19,30 +19,30 @@ local get_bound = function (line)
   return bound
 end
 
-local swap_state = function (state)
-  if state == " " then
-    return "x"
-  end
-  if state == "x" then
-    return " "
-  end
+local is_marked_done = function (line, bound)
+    local state = line:sub(bound + 1, bound + 1)
+    if state == " " then
+      return true
+    elseif state == "x" then
+      return false
+    else
+      return nil
+    end
 end
 
-local change_state = function (line, bound, given_state)
-  local state = ""
-  if given_state ~= nil then
-    state = given_state
-  else
-    state = swap_state(line:sub(bound + 1, bound + 1))
-  end
+local mark_done = function (line, bound)
   local newline = line:sub(0, bound) ..
-  state .. line:sub(bound + 2, string.len(line))
+  "x" .. line:sub(bound + 2, string.len(line))
   vim.api.nvim_set_current_line(newline)
-  print(state)
-  return state
 end
 
-function Toggle_children (line_number, bound, state)
+local mark_undone = function (line, bound)
+  local newline = line:sub(0, bound) ..
+  " " .. line:sub(bound + 2, string.len(line))
+  vim.api.nvim_set_current_line(newline)
+end
+
+local function set_children (line_number, bound, done)
   if bound == nil then
     vim.print("E: Not a todo task")
     return
@@ -52,9 +52,26 @@ function Toggle_children (line_number, bound, state)
   if new_bound ~= nil and new_bound > bound then
     local cursor = vim.api.nvim_win_get_cursor(0)
     vim.api.nvim_win_set_cursor(0, {cursor[1] + 1, cursor[2]})
-    change_state(line, new_bound, state)
-    Toggle_children(line_number + 1, bound, state)
+    if done then
+      mark_done(line, new_bound)
+      set_children(cursor[1] + 1, bound, true)
+    else
+      mark_undone(line, new_bound)
+      set_children(cursor[1] + 1, bound, false)
+    end
   end
+end
+
+local reach_bottom = function (bound)
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local line = vim.fn.getline(cursor[1])
+  local new_bound = get_bound(line)
+  if new_bound < bound then
+    print("reached end")
+  end
+end
+
+function Toggle_parent (line_number, bound, done)
 end
 
 todo.toggle = function()
@@ -65,8 +82,15 @@ todo.toggle = function()
     vim.print("E: Not a todo task")
     return
   end
-  local state = change_state(line, bound)
-  Toggle_children(cursor[1], bound, state)
+  if is_marked_done(line, bound) then
+    mark_done(line, bound)
+    set_children(cursor[1], bound, true)
+  else
+    mark_undone(line, bound)
+    set_children(cursor[1], bound, false)
+  end
+  -- Toggle_parent(cursor[1], bound)
+  -- reach_bottom(bound)
   vim.api.nvim_win_set_cursor(0, cursor)
 end
 
