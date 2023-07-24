@@ -43,7 +43,8 @@ M.open_wiki_index = function()
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-x>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "i", "<CR>", "<CR>- [ ] ", opts)
 end
 
 -- Open diary index file in the current tab
@@ -75,7 +76,8 @@ M.create_or_open_wiki_file = function()
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-x>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "i", "<CR>", "<CR>- [ ] ", opts)
 end
 
 -- Open a link under the cursor
@@ -120,7 +122,8 @@ M.open_diary_new = function()
   local buffer_number = vim.fn.bufnr(filepath, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
   local opts = { noremap = true, silent = true, nowait = true }
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-x>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "i", "<CR>", "<CR>- [ ] ", opts)
 end
 
 return M

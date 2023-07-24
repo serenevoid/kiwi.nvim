@@ -151,6 +151,7 @@ Note:
 - `<Enter>` -- Follow/Create wiki link.
 - `<Tab>` -- Find next wiki link.
 - `<Shift-Tab>` -- Find previous wiki link.
+- `<Control-Space>` -- Toggle TODO list
 
 ## Helping `kiwi.nvim`
 
