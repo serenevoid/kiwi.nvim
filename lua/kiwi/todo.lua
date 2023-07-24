@@ -42,36 +42,14 @@ local mark_undone = function (line, bound)
   vim.api.nvim_set_current_line(newline)
 end
 
-local function set_children (line_number, bound, done)
-  if bound == nil then
-    vim.print("E: Not a todo task")
-    return
-  end
-  local line = vim.fn.getline(line_number + 1)
-  local new_bound = get_bound(line)
-  if new_bound ~= nil and new_bound > bound then
-    local cursor = vim.api.nvim_win_get_cursor(0)
-    vim.api.nvim_win_set_cursor(0, {cursor[1] + 1, cursor[2]})
-    if done then
-      mark_done(line, new_bound)
-      set_children(cursor[1] + 1, bound, true)
-    else
-      mark_undone(line, new_bound)
-      set_children(cursor[1] + 1, bound, false)
-    end
-  end
-end
-
-local reach_bottom = function (bound)
+local function reach_top ()
   local cursor = vim.api.nvim_win_get_cursor(0)
-  local line = vim.fn.getline(cursor[1])
+  local line = vim.fn.getline(cursor[1] - 1)
   local new_bound = get_bound(line)
-  if new_bound < bound then
-    print("reached end")
+  if new_bound ~= nil then
+    vim.api.nvim_win_set_cursor(0, {cursor[1] - 1, cursor[2]})
+    reach_top()
   end
-end
-
-function Toggle_parent (line_number, bound, done)
 end
 
 todo.toggle = function()
@@ -84,13 +62,10 @@ todo.toggle = function()
   end
   if is_marked_done(line, bound) then
     mark_done(line, bound)
-    set_children(cursor[1], bound, true)
   else
     mark_undone(line, bound)
-    set_children(cursor[1], bound, false)
   end
-  -- Toggle_parent(cursor[1], bound)
-  -- reach_bottom(bound)
+  reach_top()
   vim.api.nvim_win_set_cursor(0, cursor)
 end
 
