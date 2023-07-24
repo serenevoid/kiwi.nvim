@@ -64,8 +64,8 @@ end
 local function find_parent (cursor, bound)
   local pseudo_cursor = cursor
   while true do
-    pseudo_cursor[1] = pseudo_cursor[1] - 1
-    local line = vim.fn.getline(pseudo_cursor[1])
+    pseudo_cursor = pseudo_cursor - 1
+    local line = vim.fn.getline(pseudo_cursor)
     local new_bound = get_bound(line)
     if new_bound == nil then
       return nil
@@ -78,15 +78,23 @@ end
 
 local function is_children_complete (cursor, bound)
   local pseudo_cursor = cursor
+  local state = true
   while true do
-    pseudo_cursor[1] = pseudo_cursor[1] - 1
-    local line = vim.fn.getline(pseudo_cursor[1])
+    local line = vim.fn.getline(pseudo_cursor + 1)
     local new_bound = get_bound(line)
     if new_bound == nil then
       return nil
+    else
+      pseudo_cursor = pseudo_cursor + 1
     end
     if new_bound < bound then
-      return pseudo_cursor
+      return state
+    end
+    if new_bound == bound then
+      local response = is_marked_done(line, bound)
+      if response ~= nil then
+        state = state and response
+      end
     end
   end
 end
@@ -96,15 +104,15 @@ local function validate_parent_tasks (cursor, bound)
   if parent_pos == nil then
     return
   end
-  vim.api.nvim_win_set_cursor(0, parent_pos)
-  local line = vim.fn.getline(parent_pos[1])
-  bound = get_bound(line)
+  vim.api.nvim_win_set_cursor(0, {parent_pos, 0})
+  local line = vim.fn.getline(parent_pos)
+  local parent_bound = get_bound(line)
   if is_children_complete(parent_pos, bound) then
-    mark_done(line, bound)
+    mark_done(line, parent_bound)
   else
-    mark_undone(line, bound)
+    mark_undone(line, parent_bound)
   end
-  validate_parent_tasks(parent_pos, bound)
+  validate_parent_tasks(parent_pos, parent_bound)
 end
 
 todo.toggle = function()
@@ -122,7 +130,8 @@ todo.toggle = function()
     mark_done(line, bound)
     toggle_children(cursor[1], bound, true)
   end
-  -- validate_parent_tasks(cursor, bound)
+  vim.api.nvim_win_set_cursor(0, cursor)
+  validate_parent_tasks(cursor[1], bound)
   vim.api.nvim_win_set_cursor(0, cursor)
 end
 
