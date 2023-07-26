@@ -158,3 +158,7 @@ Note:
 This is a new project which aims to be a minimal wiki plugin which is very barebones
 and doesn't add add features which a lot people doesn't use now. You can help by raising issues 
 and bug fixes to help develop this project for the neovim community.
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/serenevoid/kiwi.nvim.svg)](https://starchart.cc/serenevoid/kiwi.nvim)
