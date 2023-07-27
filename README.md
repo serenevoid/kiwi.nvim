@@ -5,7 +5,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Key Bindings](#key-bindings)
-- [Helping kiwi.nvim](#helping-kiwi.nvim)
+- [Helping kiwi.nvim](#helping-kiwinvim)
 - [License](./LICENSE)
 
 ----
