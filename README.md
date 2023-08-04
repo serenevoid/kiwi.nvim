@@ -1,5 +1,7 @@
 # kiwi.nvim 🥝
 
+[![Hits](https://hits.sh/github.com/serenevoid/kiwi.nvim.svg)](https://hits.sh/github.com/serenevoid/kiwi.nvim/)
+
 - [Intro](#introduction)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
