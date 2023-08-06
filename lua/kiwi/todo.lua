@@ -86,7 +86,7 @@ local function is_children_complete (cursor, bound)
     local line = vim.fn.getline(pseudo_cursor + 1)
     local new_bound = get_bound(line)
     if new_bound == nil then
-      return nil
+      return state
     else
       pseudo_cursor = pseudo_cursor + 1
     end
