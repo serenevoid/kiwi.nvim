@@ -143,6 +143,7 @@ todo.newline = function ()
     if char == "-" then
       if line:sub(i, i + 5) == "- [ ] " then
         vim.api.nvim_buf_set_lines(0, cursor[1], cursor[1], false, { line:sub(0, i + 5) })
+        vim.api.nvim_win_set_cursor(0, { cursor[1] + 1, cursor[2] })
       elseif line:sub(i, i + 1) == "- " then
         vim.api.nvim_buf_set_lines(0, cursor[1], cursor[1], false, { line:sub(0, i + 1) })
       end
