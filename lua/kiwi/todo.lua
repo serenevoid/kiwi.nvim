@@ -8,6 +8,9 @@ local function get_bound (line)
       bound = i
       break
     end
+    if char ~= " " then
+      break;
+    end
     if i == 100 then
       error("Limit exceeded", 1)
       break
