@@ -2,11 +2,8 @@ local Path = require("plenary.path")
 local sep = Path.path.sep
 local config = require("kiwi.config")
 local utils = require("kiwi.utils")
-local todo = require("kiwi.todo")
 
 local M = {}
-
-M.todo = todo
 
 -- Setup wiki folder
 M.setup = function(opts)
@@ -45,7 +42,6 @@ M.open_wiki_index = function()
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<S-Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>Nl", opts)
 end
 
 -- Open diary index file in the current tab
@@ -79,7 +75,6 @@ M.create_or_open_wiki_file = function()
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<S-Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>Nl", opts)
 end
 
 -- Open a link under the cursor
@@ -103,7 +98,6 @@ M.open_link = function(isWiki)
       vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(" .. tostring(isWiki) .. ")<CR>", opts)
       vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
       vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
-      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<S-Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>Nl", opts)
     end
   else
     vim.print("E: Cannot find file")
@@ -112,7 +106,7 @@ end
 
 M.open_diary_new = function()
   load_wiki()
-  local offset
+  local offset = nil
   vim.ui.input(
   { prompt = 'Date Offset:\n* Positive values for future diary\n* Negative values for past diaries\nOffset Value: ' },
     function(input)
