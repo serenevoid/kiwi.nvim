@@ -44,6 +44,8 @@ M.open_wiki_index = function()
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<S-Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>Nl", opts)
 end
 
 -- Open diary index file in the current tab
@@ -76,6 +78,8 @@ M.create_or_open_wiki_file = function()
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<S-Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>Nl", opts)
 end
 
 -- Open a link under the cursor
@@ -91,12 +95,15 @@ M.open_link = function(isWiki)
     if (filename:sub(1, 2) == "./") then
       filename = config.path .. subfolder .. filename:sub(2, -1)
     end
-    local bufnr = vim.fn.bufnr(filename, true)
-    if bufnr ~= -1 then
-      vim.api.nvim_win_set_buf(0, bufnr)
+    local buffer_number = vim.fn.bufnr(filename, true)
+    if buffer_number ~= -1 then
+      vim.api.nvim_win_set_buf(0, buffer_number)
       local opts = { noremap = true, silent = true, nowait = true }
-      vim.api.nvim_buf_set_keymap(bufnr, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
-      vim.api.nvim_buf_set_keymap(bufnr, "n", "<CR>", ":lua require(\"kiwi\").open_link(" .. tostring(isWiki) .. ")<CR>", opts)
+      vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(" .. tostring(isWiki) .. ")<CR>", opts)
+      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
+      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<S-Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>Nl", opts)
     end
   else
     vim.print("E: Cannot find file")
