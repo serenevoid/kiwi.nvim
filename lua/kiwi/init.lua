@@ -2,8 +2,12 @@ local Path = require("plenary.path")
 local sep = Path.path.sep
 local config = require("kiwi.config")
 local utils = require("kiwi.utils")
+local todo = require("kiwi.todo")
 
 local M = {}
+
+M.todo = todo
+M.utils = utils
 
 -- Setup wiki folder
 M.setup = function(opts)
@@ -39,7 +43,7 @@ M.open_wiki_index = function()
   vim.api.nvim_win_set_buf(0, buffer_number)
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
 end
@@ -52,8 +56,6 @@ M.open_diary_index = function()
   vim.api.nvim_win_set_buf(0, buffer_number)
   local data = utils.generate_diary_index(diary_path)
   vim.api.nvim_buf_set_lines(buffer_number, 0, -1, false, data)
-  local opts = { noremap = true, silent = true, nowait = true }
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(false)<CR>", opts)
 end
 
 -- Create a new Wiki entry in Journal folder on highlighting word and pressing <CR>
@@ -72,30 +74,26 @@ M.create_or_open_wiki_file = function()
   vim.api.nvim_win_set_buf(0, buffer_number)
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(true)<CR>", opts)
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
 end
 
 -- Open a link under the cursor
-M.open_link = function(isWiki)
+M.open_link = function()
   local cursor = vim.api.nvim_win_get_cursor(0)
   local line = vim.fn.getline(cursor[1])
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
-    local subfolder = "/diary"
-    if isWiki then
-      subfolder = ""
-    end
     if (filename:sub(1, 2) == "./") then
-      filename = config.path .. subfolder .. filename:sub(2, -1)
+      filename = config.path .. filename:sub(2, -1)
     end
     local buffer_number = vim.fn.bufnr(filename, true)
     if buffer_number ~= -1 then
       vim.api.nvim_win_set_buf(0, buffer_number)
       local opts = { noremap = true, silent = true, nowait = true }
       vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
-      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link(" .. tostring(isWiki) .. ")<CR>", opts)
+      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link()<CR>", opts)
       vim.api.nvim_buf_set_keymap(buffer_number, "n", "<C-space>", ":lua require(\"kiwi\").todo.toggle()<CR>", opts)
       vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", ":let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
     end
