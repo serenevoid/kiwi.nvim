@@ -135,25 +135,4 @@ todo.toggle = function()
   vim.api.nvim_win_set_cursor(0, cursor)
 end
 
-todo.newline = function ()
-  local cursor = vim.api.nvim_win_get_cursor(0)
-  local line = vim.fn.getline(cursor[1])
-  for i = 0, string.len(line) - 1, 1 do
-    local char = line:sub(i, i)
-    if char == "-" then
-      if line:sub(i, i + 5) == "- [ ] " then
-        vim.api.nvim_buf_set_lines(0, cursor[1], cursor[1], false, { line:sub(0, i + 5) })
-        vim.api.nvim_win_set_cursor(0, { cursor[1] + 1, cursor[2] })
-      elseif line:sub(i, i + 1) == "- " then
-        vim.api.nvim_buf_set_lines(0, cursor[1], cursor[1], false, { line:sub(0, i + 1) })
-      end
-      break
-    end
-    if i >= 100 then
-      error("Limit exceeded", 1)
-      break
-    end
-  end
-end
-
 return todo
