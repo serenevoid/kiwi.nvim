@@ -55,6 +55,8 @@ M.open_diary_index = function()
   vim.api.nvim_win_set_buf(0, buffer_number)
   local data = utils.generate_diary_index(diary_path)
   vim.api.nvim_buf_set_lines(buffer_number, 0, -1, false, data)
+  local opts = { noremap = true, silent = true, nowait = true }
+  vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", "<Cmd>lua require(\"kiwi\").open_link()<CR>", opts)
 end
 
 -- Create a new Wiki entry in Journal folder on highlighting word and pressing <CR>
@@ -83,16 +85,23 @@ M.open_link = function()
   local line = vim.fn.getline(cursor[1])
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
+    local filepath = vim.fn.expand('%')
+    local diarypath = ""
+    if filepath:match('diary') then
+      diarypath = '/diary'
+    end
     if (filename:sub(1, 2) == "./") then
-      filename = config.path .. filename:sub(2, -1)
+      filename = config.path .. diarypath .. filename:sub(2, -1)
     end
     local buffer_number = vim.fn.bufnr(filename, true)
     if buffer_number ~= -1 then
       vim.api.nvim_win_set_buf(0, buffer_number)
-      local opts = { noremap = true, silent = true, nowait = true }
-      vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", "<Cmd>'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
-      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", "<Cmd>lua require(\"kiwi\").open_link()<CR>", opts)
-      vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", "<Cmd>let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
+      if diarypath == "" then
+        local opts = { noremap = true, silent = true, nowait = true }
+        vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", "<Cmd>'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", "<Cmd>lua require(\"kiwi\").open_link()<CR>", opts)
+        vim.api.nvim_buf_set_keymap(buffer_number, "n", "<Tab>", "<Cmd>let @/=\"\\\\[.\\\\{-}\\\\]\"<CR>nl", opts)
+      end
     end
   else
     vim.print("E: Cannot find file")
