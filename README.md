@@ -138,6 +138,7 @@ local kiwi = require('kiwi')
 vim.keymap.set('n', '<leader>ww', kiwi.open_wiki_index, {})
 vim.keymap.set('n', '<leader>wd', kiwi.open_diary_index, {})
 vim.keymap.set('n', '<leader>wn', kiwi.open_diary_new, {})
+vim.keymap.set('n', '<leader-x>', kiwi.todo.toggle, {})
 ```
 
 Note: 
@@ -152,13 +153,12 @@ Note:
 
 - `<Enter>` -- Follow/Create wiki link.
 - `<Tab>` -- Find next wiki link.
-- `<Shift-Tab>` -- Find previous wiki link.
 - `<Control-Space>` -- Toggle TODO list
 
 ## Helping `kiwi.nvim`
 
 This is a new project which aims to be a minimal wiki plugin which is very barebones
-and doesn't add add features which a lot people doesn't use now. You can help by raising issues 
+and doesn't add features which a lot people doesn't use now. You can help by raising issues 
 and bug fixes to help develop this project for the neovim community.
 
 ## Stargazers over time
