@@ -110,17 +110,7 @@ end
 
 M.open_diary_new = function()
   load_wiki()
-  local offset = nil
-  vim.ui.input(
-  { prompt = 'Date Offset:\n* Positive values for future diary\n* Negative values for past diaries\nOffset Value: ' },
-    function(input)
-      offset = tonumber(input)
-    end)
   local date = os.date("%Y%m%d")
-  if offset ~= nil then
-    local date_value = tonumber(date)
-    date = tostring(date_value + offset)
-  end
   local filepath = config.path .. sep .. "diary" .. sep .. date .. ".md"
   local buffer_number = vim.fn.bufnr(filepath, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
