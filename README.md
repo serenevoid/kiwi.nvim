@@ -62,10 +62,10 @@ The result should look something like:
 
 ## Screenshots
 
-![Wiki Index View](https://drive.google.com/uc?export=view&id=1MV8FoMnuOhlyvHO9xVidyVWumjW_Wb3_)
-![Wiki View](https://drive.google.com/uc?export=view&id=1oCEC4D67gXOBte1WBhPhB_qaMJwVNsjP)
-![Diary Index View](https://drive.google.com/uc?export=view&id=1lRlcYsdEZcO9ZmcV84W-ZkCIqJmHRcTL)
-![Diary View](https://drive.google.com/uc?export=view&id=1vRE6doVCykXglti0vwDK3bh1o-N4KRWB)
+![index.md](https://i.imgur.com/2aZEdlS.jpg)
+![custom_note.md](https://i.imgur.com/SRnBTuy.jpg)
+![todays_diary.md](https://i.imgur.com/p0zM9yG.jpg)
+![todo.md](https://i.imgur.com/V6FV9PA.jpg)
 
 ## Installation
 
