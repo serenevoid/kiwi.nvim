@@ -134,13 +134,9 @@ utils.choose_wiki = function (folders, total)
   { prompt = prompt_text },
   function(input)
     input = tonumber(input)
-    if type(input) ~= "number" then
-      print("\nInvalid input")
-      return
-    end
-    if total < input then
+    if type(input) ~= "number" or total < (input) then
       print("\nInvalid index")
-      return
+      input = 1
     end
     path = folders[input].path
   end
