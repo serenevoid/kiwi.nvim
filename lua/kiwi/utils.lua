@@ -4,6 +4,16 @@ local utils = {}
 
 local home = ""
 
+-- Setup wiki folder
+utils.setup = function(opts, config)
+  if opts ~= nil then
+    config.folders = opts
+  else
+    config.path = utils.get_wiki_path()
+  end
+  utils.ensure_directories(config)
+end
+
 -- Get Home path
 local get_home = function()
   if vim.loop.os_uname().sysname == "Windows_NT"
@@ -142,6 +152,22 @@ utils.choose_wiki = function (folders, total)
   end
   )
   return path
+end
+
+-- Show prompt if multiple wiki path found or else choose default path
+utils.prompt_folder = function (config)
+  if config.folders ~= nil then
+    local count = 0
+    for _ in ipairs(config.folders) do count = count + 1 end
+    if count > 1 then
+      config.path = utils.choose_wiki(config.folders, count)
+    else
+      config.path = config.folders[1].path
+    end
+  end
+  if config.path == "" then
+    utils.setup(nil, config)
+  end
 end
 
 return utils
