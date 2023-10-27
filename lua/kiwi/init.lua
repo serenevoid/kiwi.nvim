@@ -10,7 +10,7 @@ M.utils = utils
 M.VERSION = "0.3.0"
 
 M.setup = function(opts)
-	utils.setup(opts, config)
+  utils.setup(opts, config)
 end
 
 M.open_wiki_index = wiki.open_wiki_index

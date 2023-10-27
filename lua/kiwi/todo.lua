@@ -20,14 +20,14 @@ local function get_bound (line)
 end
 
 local function is_marked_done (line, bound)
-    local state = line:sub(bound + 1, bound + 1)
-    if state == "x" then
-      return true
-    elseif state == " " then
-      return false
-    else
-      return nil
-    end
+  local state = line:sub(bound + 1, bound + 1)
+  if state == "x" then
+    return true
+  elseif state == " " then
+    return false
+  else
+    return nil
+  end
 end
 
 local function mark_done (line, bound)

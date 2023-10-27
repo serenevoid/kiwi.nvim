@@ -38,9 +38,9 @@ Feed it with the following example:
 
 ```text
 # My knowledge base
-    - Tasks -- things to be done _yesterday_!!!
-    - Project Gutenberg -- good books are power.
-    - Scratchpad -- various temporary stuff.
+- Tasks -- things to be done _yesterday_!!!
+- Project Gutenberg -- good books are power.
+- Scratchpad -- various temporary stuff.
 ```
 
 Place your cursor on `Tasks` and press Enter to create a link. Once pressed,
@@ -54,9 +54,9 @@ The result should look something like:
 
 ```text
 # My knowledge base
-    - [Tasks](./Tasks.md) -- things to be done _yesterday_!!!
-    - [Project Gutenberg](./Project_Gutenberg.md) -- good books are power.
-    - Scratchpad -- various temporary stuff.
+- [Tasks](./Tasks.md) -- things to be done _yesterday_!!!
+- [Project Gutenberg](./Project_Gutenberg.md) -- good books are power.
+- Scratchpad -- various temporary stuff.
 ```
 
 ## Screenshots
@@ -90,8 +90,8 @@ Then run `:PlugInstall`.
 ```lua
 
 use {
-  'serenevoid/kiwi.nvim', 
-  requires = { {'nvim-lua/plenary.nvim'} }
+    'serenevoid/kiwi.nvim', 
+    requires = { {'nvim-lua/plenary.nvim'} }
 }
 
 ```
@@ -117,25 +117,25 @@ return {
 For [Lazy](https://github.com/folke/lazy.nvim) users,
 ```lua
 {
-	'serenevoid/kiwi.nvim',
-	dependencies = {
-		"nvim-lua/plenary.nvim"
-	},
-	opts = {
-		{
-			name = "work",
-			path = "/home/username/wiki_1"
-		},
-		{
-			name = "personal",
-			path = "/home/username/wiki_2"
-		}
-	},
-	keys = {
-		{ "<leader>ww", ":lua require(\"kiwi\").open_wiki_index()<cr>", desc = "Open Wiki index" },
-		{ "<leader>t", ":lua require(\"kiwi\").todo.toggle()<cr>", desc = "Toggle Markdown Task" }
-	},
-	lazy = true
+    'serenevoid/kiwi.nvim',
+    dependencies = {
+        "nvim-lua/plenary.nvim"
+    },
+    opts = {
+        {
+            name = "work",
+            path = "/home/username/wiki_1"
+        },
+        {
+            name = "personal",
+            path = "/home/username/wiki_2"
+        }
+    },
+    keys = {
+        { "<leader>ww", ":lua require(\"kiwi\").open_wiki_index()<cr>", desc = "Open Wiki index" },
+        { "<leader>t", ":lua require(\"kiwi\").todo.toggle()<cr>", desc = "Toggle Markdown Task" }
+    },
+    lazy = true
 }
 ```
 
@@ -144,14 +144,14 @@ For others,
 
 -- Setup Custom wiki path if required
 require('kiwi').setup({
-  {
-    name = "work",
-    path = "C:\\Users\\username\\personal-wiki" -- For Windows users
-  },
-  {
-    name = "personal",
-    path = "/home/username/personal-wiki"
-  }
+    {
+        name = "work",
+        path = "C:\\Users\\username\\personal-wiki" -- For Windows users
+    },
+    {
+        name = "personal",
+        path = "/home/username/personal-wiki"
+    }
 })
 
 -- Use default path (i.e. ~/wiki/)

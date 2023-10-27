@@ -25,10 +25,10 @@ local get_home = function()
 end
 
 local create_dirs = function (wiki_path)
-      local path = Path:new(wiki_path)
-      if not path:exists() then
-        path:mkdir()
-      end
+  local path = Path:new(wiki_path)
+  if not path:exists() then
+    path:mkdir()
+  end
 end
 
 -- Get the default Wiki folder path
@@ -96,15 +96,15 @@ utils.choose_wiki = function (folders, total)
   prompt_text = prompt_text .. "Choose wiki (default: 1): "
   local path = ""
   vim.ui.input(
-  { prompt = prompt_text },
-  function(input)
-    input = tonumber(input)
-    if type(input) ~= "number" or total < (input) then
-      print("\nInvalid index")
-      input = 1
+    { prompt = prompt_text },
+    function(input)
+      input = tonumber(input)
+      if type(input) ~= "number" or total < (input) then
+        print("\nInvalid index")
+        input = 1
+      end
+      path = folders[input].path
     end
-    path = folders[input].path
-  end
   )
   return path
 end
