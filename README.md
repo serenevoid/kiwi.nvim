@@ -14,7 +14,7 @@
 
 ## Introduction
 
-`kiwi.nvim` is a stripped down version of Vimwiki for Neovim. 
+`kiwi.nvim` is a stripped down version of VimWiki for Neovim. 
 
 | VimWiki | kiwi.nvim |
 |---|---|
@@ -27,8 +27,7 @@ With `kiwi.nvim`, you can:
 - Organize notes and ideas
 - Manage to-do lists
 - Write documentation
-- Maintain a diary
-- Write blog posts to Hugo and Astro
+- Write blog posts to Hugo or Astro
 
 To do a quick start, press `<Leader>ww` (default is `\ww`) to go to your index
 wiki file. By default, it is located in `~/wiki/index.md`.
@@ -62,9 +61,7 @@ The result should look something like:
 
 ## Screenshots
 
-![index.md](https://i.imgur.com/2aZEdlS.jpg)
 ![custom_note.md](https://i.imgur.com/SRnBTuy.jpg)
-![todays_diary.md](https://i.imgur.com/p0zM9yG.jpg)
 ![todo.md](https://i.imgur.com/V6FV9PA.jpg)
 
 ## Installation
@@ -136,8 +133,6 @@ For [Lazy](https://github.com/folke/lazy.nvim) users,
 	},
 	keys = {
 		{ "<leader>ww", ":lua require(\"kiwi\").open_wiki_index()<cr>", desc = "Open Wiki index" },
-		{ "<leader>wd", ":lua require(\"kiwi\").open_diary_index()<cr>", desc = "Open Diary index" },
-		{ "<leader>wn", ":lua require(\"kiwi\").open_diary_new()<cr>", desc = "Open today's Diary" },
 		{ "<leader>t", ":lua require(\"kiwi\").todo.toggle()<cr>", desc = "Toggle Markdown Task" }
 	},
 	lazy = true
@@ -164,16 +159,8 @@ local kiwi = require('kiwi')
 
 -- Necessary keybindings
 vim.keymap.set('n', '<leader>ww', kiwi.open_wiki_index, {})
-vim.keymap.set('n', '<leader>wd', kiwi.open_diary_index, {})
-vim.keymap.set('n', '<leader>wn', kiwi.open_diary_new, {})
 vim.keymap.set('n', '<leader-x>', kiwi.todo.toggle, {})
 ```
-
-Note: 
-- Diary Index is auto-generated. Please avoid editing Diary index file.
-- When opening a new Diary page, a prompt will ask you for required offest in date.
-  Provide the number of days to be offset from today's date
-  Use positive values for future Diaries and negative for past
 
 ## Key bindings
 
