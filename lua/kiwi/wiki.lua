@@ -5,8 +5,16 @@ local sep = require("plenary.path").path.sep
 local M = {}
 
 -- Open wiki index file in the current tab
-M.open_wiki_index = function()
-  utils.prompt_folder(config)
+M.open_wiki_index = function(name)
+  if name == nil then
+    utils.prompt_folder(config)
+  else
+    for _, v in pairs(config.folders) do
+      if v.name == name then
+        config.path = v.path
+      end
+    end
+  end
   local wiki_index_path = config.path .. sep .. "index.md"
   local buffer_number = vim.fn.bufnr(wiki_index_path, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
