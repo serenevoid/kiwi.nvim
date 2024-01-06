@@ -55,7 +55,7 @@ end
 utils.is_link = function(cursor, line)
   local filename_bounds = {}
   local found_opening = false
-  for i = cursor[2], 0, -1 do
+  for i = cursor[2] + 1, 0, -1 do
     if (line:sub(i, i) == ")") then
       return nil
     end
