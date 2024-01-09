@@ -32,12 +32,10 @@ M.create_or_open_wiki_file = function()
   local name = line[1]:sub(selection_start[3], selection_end[3])
   local filename = name:gsub(" ", "_"):gsub("\\", "") .. ".md"
   local new_mkdn = "[" .. name .. "]"
-  local relativePath = vim.fs.dirname(vim.fn.expand('%:p')) .. sep
-  relativePath =  relativePath:gsub(config.path .. sep, "")
-  new_mkdn = new_mkdn .. "(." .. sep .. relativePath .. filename .. ")"
+  new_mkdn = new_mkdn .. "(./" .. filename .. ")"
   local newline = line[1]:sub(0, selection_start[3] - 1) .. new_mkdn .. line[1]:sub(selection_end[3] + 1, string.len(line[1]))
   vim.api.nvim_set_current_line(newline)
-  local buffer_number = vim.fn.bufnr(config.path .. sep .. relativePath .. filename, true)
+  local buffer_number = vim.fn.bufnr(config.path .. utils.get_relative_path(config) .. sep .. filename, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
@@ -52,7 +50,7 @@ M.open_link = function()
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
     if (filename:sub(1, 2) == "./") then
-      filename = config.path .. filename:sub(2, -1)
+      filename = config.path .. utils.get_relative_path(config) .. filename:sub(2, -1)
     end
     local buffer_number = vim.fn.bufnr(filename, true)
     if buffer_number ~= -1 then
