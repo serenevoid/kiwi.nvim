@@ -40,6 +40,12 @@ utils.get_wiki_path = function()
   return default_dir
 end
 
+-- Get the relative path to the current buffer from the Wiki folder
+utils.get_relative_path =  function (config)
+  local relative_path = vim.fs.dirname(vim.fn.expand('%:p'))
+  return relative_path:gsub(config.path, "")
+end
+
 -- Create wiki folder
 utils.ensure_directories = function(config)
   if (config.folders ~= nil) then
