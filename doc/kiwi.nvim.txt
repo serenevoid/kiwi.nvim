@@ -1,0 +1,174 @@
+kiwi.nvim.txt=================================================================
+
+Kiwi, the lean personal wiki for Neovim!
+                         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣤⣤⣤⣤⣤⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⠀⢀⣤⣴⡶⣿⣯⣿⣿⣿⣿⣶⣿⢿⣿⣷⣿⣿⣟⣳⢖⠒⠋⠉⠙⠐⠒⠲⠦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                         ⠀⠀⠀⢀⣠⣶⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣁⠾⠁⠀⠉⠒⣄⠀⠀⠀⠀⡀⠀⠈⠑⠢⣄⠀⠀⠀⠀⠀⠀⠀⠀
+                         ⠀⢀⣴⣿⡟⣿⠟⡛⣬⡿⣻⢋⢿⣿⣿⣿⣿⣿⣿⣿⣟⢠⡓⡀⠀⠀⠀⠀⢀⣲⣤⣄⡀⠹⣣⡀⢠⡀⠈⠑⢦⡀⠀⠀⠀⠀⠀
+                         ⢀⣾⢿⣿⢩⠯⢮⡶⢏⣸⣍⢷⣟⢾⣿⣿⣿⣿⣿⠯⡀⠸⡆⠨⣝⣒⣦⣄⣈⣿⢿⠝⠿⣷⣿⣷⣾⣸⣠⡄⠀⠙⢦⡀⠀⠀⠀
+                         ⡾⠁⣿⣸⣼⡷⣼⠅⣰⣗⡨⣟⢒⠿⣿⣿⣿⣿⣿⡀⠀⠀⢳⠀⠀⠨⢭⣿⣿⣿⡛⠃⠀⠀⠉⠀⠉⢻⣿⣶⡛⠉⠀⠑⡄⠀⠀
+                         ⡇⣴⣿⣿⣿⣷⣿⡿⢗⡫⣿⣞⢑⣼⣿⣿⣿⣿⢒⠁⡄⠀⠈⢳⡀⠀⠸⠿⣿⣿⠯⠄⠀⠀⠀⠀⠀⠀⢙⣿⡽⡭⠀⠀⠘⢆⠀
+                         ⢧⣾⣿⣿⣿⣿⣿⢣⠉⠘⠋⢼⣾⣿⣿⣿⣿⣉⠀⡞⠀⠀⠀⠀⠙⢦⡀⠀⠹⢿⣷⣦⣧⣸⣤⣤⣤⣔⢶⠿⠻⠎⠓⡂⠀⠘⡄
+                         ⠈⣿⣿⣿⣿⢿⡇⣜⠀⢧⢼⣿⣿⣿⣿⣿⣿⠠⣿⠀⠀⠐⢀⠀⠀⠈⢙⢦⠀⠘⠋⡟⠻⣼⣿⢿⣿⣿⣗⠀⠀⠀⠀⠀⠀⠀⡇
+                         ⠀⠘⣿⡟⡅⠈⢀⡀⣻⣾⣿⣿⣿⣿⣿⣿⣿⢘⠧⡗⠀⠙⠲⡀⠀⠀⠈⠉⠳⣄⡀⠀⠀⠘⠘⠀⠓⠁⠀⠀⠀⠀⠀⠀⠀⢸⠇
+                         ⠀⠀⠘⢷⣼⠡⣾⠿⣞⡿⣭⣿⣽⣿⣿⣿⣿⡍⠉⣹⡺⢦⡀⣗⣠⡈⠇⠠⡠⢬⣙⡲⡶⡤⢤⣤⡀⠀⠀⠀⠀⠀⢀⣤⣿⡟⠀
+                         ⠀⠀⠀⠈⠛⢷⣿⣿⣽⣷⣿⣿⣿⣿⣿⣿⣿⣷⡀⢽⢶⣳⣿⣿⣷⣦⣶⡦⣩⠷⣽⣯⣿⣲⢤⣁⣸⢻⣞⢓⣴⣿⢿⣣⠏⠀⠀
+                         ⠀⠀⠀⠀⠀⠀⠈⠙⠛⠿⠿⠿⣿⣿⣿⣿⣿⣿⣷⣄⣤⣳⣿⣷⣿⣿⣿⣿⣿⣮⣿⣿⣿⣿⣿⣿⣯⣿⣿⡿⣧⡠⠟⠁⠀⠀⠀
+https://github.com/serenevoid/kiwi.nvim/⠀⠀⠀⠀⠉⠛⠿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣾⠿⠋⠀⠀⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
+
+=============================================================================
+
+*kiwi.nvim*		for Neovim => 0.7	      last change: 2023-02-05
+
+Contents
+--------
+- Introduction			                |kiwi|
+- Features  				        |kiwi.nvim-features|
+- Settings and configuration     	 	|kiwi.nvim-settings|
+- Usage 					|kiwi.nvim-usage|
+- Keymappings 	  				|kiwi.nvim-keys|
+- Installation  		                |kiwi.nvim-installation|
+
+
+=============================================================================
+Introduction						               *kiwi*
+
+kiwi.nvim is a personal wiki for Neovim. A wiki is a collection of text
+documents linked together. kiwi.nvim documents are formatted in markdown
+syntax. 
+
+kiwi.nvim is a new project which aims to be a minimal wiki plugin that doesn't
+add features that many users will not use. If you want additional
+functionality for your personal wiki, you can install other specialised
+plugins to provide functions like syntax highlighting or autosave. You can
+also create personal keymappings and personal functions to make your wiki
+truly personal.
+
+You can use a wiki in Neovim to:
+
+- organize notes and ideas
+- manage to-do lists
+- write documentation
+- write blog posts to publish using Hugo or Astro
+
+
+=============================================================================
+Features  						 *kiwi.nvim-features*
+
+kiwi.nvim has the following features:
+
+- Quick access to wiki-index
+- Manage multiple wikis
+- Easily create new wiki files
+- Follow links
+- Jump through links using tab
+- Manage todolists
+- Toggle checkboxes
+
+
+=============================================================================
+Settings and configuration      *kiwi.nvim-settings* *kiwi.nvim-configuration*
+
+By default kiwi.nvim will make a wiki in your user home folder in 
+
+  ~/wiki/index.md
+
+You can set up a custom path to your wikis. You can name your wiki and assign
+it to a path. Every wiki has a unique name. You can also assign several names
+to the same location. This can be useful to set up the same wiki on both your
+workmachine using Windows and using Linux at home. 
+
+This is an example:
+
+  -- Setup Custom wiki path if required
+  require('kiwi').setup({
+      {
+          name = "work",
+          path = "C:\\Users\\username\\personal-wiki" -- For Windows 
+      },
+      {
+          name = "personal",
+          path = "/home/username/personal-wiki"
+      },
+      {
+          name = "blog",
+          path = "/home/username/personal-wiki/blog"
+      }
+  })
+  
+
+=============================================================================
+Keymappings 	  			*kiwi.nvim-keys* *kiwi.nvim-keymaps*
+
+General keymappings
+-------------------
+
+When using a wiki file the following keybindings are available in normal mode:
+
+  <Enter> 	  -- Follow/Create wiki link.
+  <Tab> 	  -- Find next wiki link.
+
+
+Personal keymappings
+--------------------
+
+kiwi.nvim does not set personal keymappings by default, you will have to set
+them in your init.lua, or define them using a plugin. We recommend a mapping
+for quickly opening the wiki-index of every wiki and a shortcut key for
+toggling the status of a task.
+
+These examples can be set in your personal configuration:
+
+  vim.keymap.set('n', '<leader>ww', require('kiwi').open_wiki_index, {})
+  vim.keymap.set('n', '<leader>wp', require('kiwi').open_wiki_index(\"personal\"), {})
+  vim.keymap.set('n', '<leader>x', require('kiwi').todo.toggle, {})
+
+
+=============================================================================
+Usage 							*kiwi.nvim-usage*
+
+To do a quick start, press `<Leader>ww` (default is `\ww`) to go to your index
+wiki file. By default, it is located in `~/wiki/index.md`. To register a
+different path for the wiki, you can specify the path inside the setup
+function if required
+
+Feed it with the following example:
+
+  # My knowledge base
+  - Tasks -- things to be done _yesterday_!!!
+  - Project Gutenberg -- good books are power.
+  - Scratchpad -- various temporary stuff.
+
+Place your cursor on `Tasks` and press `Enter` to create a link. Once
+pressed, `Tasks` will become `[Tasks](./Tasks.md)` and open it. Edit the file,
+save it. To go back, you can press `<C-o>` to move to the previous file. 
+
+A markdown link can be constructed from more than one word. Just visually
+select the words to be linked and press Enter. Try it, with `Project Gutenberg`.
+The result should look something like:
+
+  # My knowledge base
+  - [Tasks](./Tasks.md) -- things to be done _yesterday_!!!
+  - [Project Gutenberg](./Project_Gutenberg.md) -- good books are power.
+  - Scratchpad -- various temporary stuff.
+
+While using the file, you can place the cursor on the name of the link and
+press `Enter` to follow the link to the file.
+
+Links to other files can be used in a wiki file by making a link using the
+relative path. If you make use of subwikis you can add subdirectories in your
+wiki folder and link to files there.
+
+
+=============================================================================
+Installation					     *kiwi.nvim-installation*
+
+kiwi.nvim requires the plenary.nvim plugin to work. Installation of kiwi.nvim
+is possible with the *packages* functionality, copied to the standard
+application folders, or using a plugin manager. Please see the README file for
+details and examples.
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
