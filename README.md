@@ -134,7 +134,7 @@ For [Lazy](https://github.com/folke/lazy.nvim) users,
     keys = {
         { "<leader>ww", ":lua require(\"kiwi\").open_wiki_index()<cr>", desc = "Open Wiki index" },
         { "<leader>wp", ":lua require(\"kiwi\").open_wiki_index(\"personal\")<cr>", desc = "Open index of personal wiki" },
-        { "<leader>t", ":lua require(\"kiwi\").todo.toggle()<cr>", desc = "Toggle Markdown Task" }
+        { "T", ":lua require(\"kiwi\").todo.toggle()<cr>", desc = "Toggle Markdown Task" }
     },
     lazy = true
 }
@@ -142,7 +142,6 @@ For [Lazy](https://github.com/folke/lazy.nvim) users,
 
 For others,
 ```lua
-
 -- Setup Custom wiki path if required
 require('kiwi').setup({
     {
@@ -160,7 +159,7 @@ local kiwi = require('kiwi')
 
 -- Necessary keybindings
 vim.keymap.set('n', '<leader>ww', kiwi.open_wiki_index, {})
-vim.keymap.set('n', '<leader-x>', kiwi.todo.toggle, {})
+vim.keymap.set('n', 'T', kiwi.todo.toggle, {})
 ```
 
 ## Key bindings
@@ -169,7 +168,7 @@ vim.keymap.set('n', '<leader-x>', kiwi.todo.toggle, {})
 
 - `<Enter>` -- Follow/Create wiki link.
 - `<Tab>` -- Find next wiki link.
-- `<Control-Space>` -- Toggle TODO list
+- `T` -- Toggle TODO list
 
 ## Helping `kiwi.nvim`
 
