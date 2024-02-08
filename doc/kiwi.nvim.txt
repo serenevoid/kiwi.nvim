@@ -20,14 +20,14 @@ https://github.com/serenevoid/kiwi.nvim/⠀⠀⠀⠀⠉⠛⠿⣿⣿⣿⣷⣿⣿�
 
 =============================================================================
 
-*kiwi.nvim*		for Neovim => 0.7	      last change: 2023-02-05
+*kiwi.nvim*		for Neovim => 0.7	      last change: 2023-02-08
 
 Contents
 --------
 - Introduction			                |kiwi|
 - Features  				        |kiwi.nvim-features|
-- Settings and configuration     	 	|kiwi.nvim-settings|
 - Usage 					|kiwi.nvim-usage|
+- Settings and configuration     	 	|kiwi.nvim-settings|
 - Keymappings 	  				|kiwi.nvim-keys|
 - Installation  		                |kiwi.nvim-installation|
 
@@ -67,6 +67,30 @@ kiwi.nvim has the following features:
 - Manage todolists
 - Toggle checkboxes
 
+=============================================================================
+Usage 							*kiwi.nvim-usage*
+
+Open the wiki by calling the `require('kiwi').open_wiki_index` function, which
+is usually mapped to a personal shortkey like `<Leader>ww`. This will open
+your index wiki file. By default, the index is located in `~/wiki/index.md`. 
+
+In the wiki file you can take notes direcly. When you select one or more words
+in visual mode, you can create a new wiki file by hitting enter. When a file
+already exists with those words with the extension .md, this file will be
+opened in a new buffer.
+
+If a file does not exist in the wiki folder with this name, a new document
+will be opened in the new buffer. 
+
+To quickly return to the file from which you followed the link, you can use
+the standard vim key `<ctrl-o>`.
+
+In any wiki file, links to other files can be created by making a link using
+the relative path. 
+
+To create subwikis you can add subdirectories in your wiki folder and link to
+files there.
+
 
 =============================================================================
 Settings and configuration      *kiwi.nvim-settings* *kiwi.nvim-configuration*
@@ -102,15 +126,6 @@ This is an example:
 =============================================================================
 Keymappings 	  			*kiwi.nvim-keys* *kiwi.nvim-keymaps*
 
-General keymappings
--------------------
-
-When using a wiki file the following keybindings are available in normal mode:
-
-  <Enter> 	  -- Follow/Create wiki link.
-  <Tab> 	  -- Find next wiki link.
-
-
 Personal keymappings
 --------------------
 
@@ -126,40 +141,18 @@ These examples can be set in your personal configuration:
   vim.keymap.set('n', '<leader>x', require('kiwi').todo.toggle, {})
 
 
-=============================================================================
-Usage 							*kiwi.nvim-usage*
+General keymappings
+-------------------
 
-To do a quick start, press `<Leader>ww` (default is `\ww`) to go to your index
-wiki file. By default, it is located in `~/wiki/index.md`. To register a
-different path for the wiki, you can specify the path inside the setup
-function if required
+When opening your personal wiki, the following keybindings are available: 
 
-Feed it with the following example:
+In normal mode:
+  <Tab> 	  -- Find next wiki link.
+  <Enter> 	  -- Follow wiki link.
 
-  # My knowledge base
-  - Tasks -- things to be done _yesterday_!!!
-  - Project Gutenberg -- good books are power.
-  - Scratchpad -- various temporary stuff.
+In visual mode:
+  <Enter> 	  -- Folow or create wiki link 
 
-Place your cursor on `Tasks` and press `Enter` to create a link. Once
-pressed, `Tasks` will become `[Tasks](./Tasks.md)` and open it. Edit the file,
-save it. To go back, you can press `<C-o>` to move to the previous file. 
-
-A markdown link can be constructed from more than one word. Just visually
-select the words to be linked and press Enter. Try it, with `Project Gutenberg`.
-The result should look something like:
-
-  # My knowledge base
-  - [Tasks](./Tasks.md) -- things to be done _yesterday_!!!
-  - [Project Gutenberg](./Project_Gutenberg.md) -- good books are power.
-  - Scratchpad -- various temporary stuff.
-
-While using the file, you can place the cursor on the name of the link and
-press `Enter` to follow the link to the file.
-
-Links to other files can be used in a wiki file by making a link using the
-relative path. If you make use of subwikis you can add subdirectories in your
-wiki folder and link to files there.
 
 
 =============================================================================
