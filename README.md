@@ -166,9 +166,8 @@ vim.keymap.set('n', 'T', kiwi.todo.toggle, {})
 
 ### Basic key bindings
 
-- `<Enter>` -- Follow/Create wiki link.
+- `<Enter>` -- In visual mode: Follow/Create wiki link, in Normal mode just follow
 - `<Tab>` -- Find next wiki link.
-- `T` -- Toggle TODO list
 
 ## Helping `kiwi.nvim`
 
