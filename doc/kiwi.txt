@@ -136,8 +136,8 @@ toggling the status of a task.
 
 These examples can be set in your personal configuration:
 
-  vim.keymap.set('n', '<leader>ww', require('kiwi').open_wiki_index, {})
-  vim.keymap.set('n', '<leader>wp', require('kiwi').open_wiki_index(\"personal\"), {})
+  vim.keymap.set('n', '<leader>ww', "<cmd>lua require(\'kiwi\').open_wiki_index()<cr>")
+  vim.keymap.set('n', '<leader>wp', "<cmd>lua require(\'kiwi\').open_wiki_index(\'personal\')<cr>")
   vim.keymap.set('n', '<leader>x', require('kiwi').todo.toggle, {})
 
 
