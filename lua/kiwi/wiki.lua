@@ -9,10 +9,14 @@ M.open_wiki_index = function(name)
   if name == nil then
     utils.prompt_folder(config)
   else
-    for _, v in pairs(config.folders) do
-      if v.name == name then
-        config.path = v.path
+    if config.folders ~= nil then
+      for _, v in pairs(config.folders) do
+        if v.name == name then
+          config.path = v.path
+        end
       end
+    else
+      require("kiwi").setup()
     end
   end
   local wiki_index_path = config.path .. sep .. "index.md"

@@ -43,7 +43,7 @@ end
 -- Get the relative path to the current buffer from the Wiki folder
 utils.get_relative_path =  function (config)
   local relative_path = vim.fs.dirname(vim.fn.expand('%:p'))
-  return relative_path:gsub("/", "\\"):gsub(config.path, "")
+  return relative_path:gsub(config.path:gsub("\\", "/"), "")
 end
 
 -- Create wiki folder
