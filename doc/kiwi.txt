@@ -20,7 +20,7 @@ https://github.com/serenevoid/kiwi.nvim/⠀⠀⠀⠀⠉⠛⠿⣿⣿⣿⣷⣿⣿�
 
 =============================================================================
 
-*kiwi.nvim*		for Neovim => 0.7	      last change: 2023-02-08
+*kiwi.nvim*		for Neovim => 0.7	      last change: 2024-02-25
 
 Contents
 --------
@@ -70,26 +70,61 @@ kiwi.nvim has the following features:
 =============================================================================
 Usage 							*kiwi.nvim-usage*
 
+Opening a wiki
+--------------
+
 Open the wiki by calling the `require('kiwi').open_wiki_index` function, which
 is usually mapped to a personal shortkey like `<Leader>ww`. This will open
 your index wiki file. By default, the index is located in `~/wiki/index.md`. 
 
-In the wiki file you can take notes direcly. When you select one or more words
-in visual mode, you can create a new wiki file by hitting enter. When a file
-already exists with those words with the extension .md, this file will be
-opened in a new buffer.
+
+Creating hyperlinks and new wiki pages
+--------------------------------------
+
+When you select one or more words in visual mode, you can create a new wiki
+file by hitting enter. When a file already exists with those words with the
+extension `.md`, this file will be opened in a new buffer.
 
 If a file does not exist in the wiki folder with this name, a new document
-will be opened in the new buffer. 
-
-To quickly return to the file from which you followed the link, you can use
-the standard vim key `<ctrl-o>`.
+will be opened in the new buffer with the selected word(s) as the name of the
+new markdown-file.
 
 In any wiki file, links to other files can be created by making a link using
 the relative path. 
 
 To create subwikis you can add subdirectories in your wiki folder and link to
 files there.
+
+
+Moving around
+-------------
+
+You can jump to the next hyperlink in the current file by pressing `tab`, by
+pressing `enter`, the file it refers to will be opened.
+
+To quickly return to the file from which you followed the hyperlink, you can use
+the standard vim key `<ctrl-o>`.
+
+
+Managing todo items 					*kiwi-todo*
+-------------------
+
+Kiwi supports managing todo items. You can change tasks and subtasks by
+indented list of items starting with `[ ]`. Kiwi also supports the markdown
+format with bullet items. For instance:
+
+- [ ] main task
+    - [ ] subtask 1
+    - [x] subtask 2
+    - [ ] subtask 3
+- [x] other task
+- [ ] last task
+
+By calling the `require('kiwi').todo.toggle()` function, which you can map to
+for instance  `T` in normal mode, you can toggle an individual task or
+subtask. Kiwi will also check if there are related tasks. When you change the
+state of a main task, all subtasks will also be changed. Also, when you mark
+all subtasks as done, the main task will also be checked.
 
 
 =============================================================================
@@ -122,6 +157,13 @@ This is an example:
       }
   })
   
+Recommended settings
+--------------------
+
+To make links more readable it is recommended to use Treesitter for markdown
+syntax and enable concealing in your init.lua file:
+
+  `vim.opt.conceallevel = 2`
 
 =============================================================================
 Keymappings 	  			*kiwi.nvim-keys* *kiwi.nvim-keymaps*
@@ -136,9 +178,17 @@ toggling the status of a task.
 
 These examples can be set in your personal configuration:
 
-  vim.keymap.set('n', '<leader>ww', require('kiwi').open_wiki_index, {})
-  vim.keymap.set('n', '<leader>wp', require('kiwi').open_wiki_index(\"personal\"), {})
-  vim.keymap.set('n', '<leader>x', require('kiwi').todo.toggle, {})
+To choose from a list which wiki to open:
+
+  `vim.keymap.set('n', '<leader>ww', "<cmd>lua require(\'kiwi\').open_wiki_index()<cr>")`
+
+To open a specific wiki, named 'personal':
+
+  `vim.keymap.set('n', '<leader>wp', "<cmd>lua require(\'kiwi\').open_wiki_index(\'personal\')<cr>")`
+
+To toggle the state of a checkbox:
+
+  `vim.keymap.set('n', '<leader>x', require('kiwi').todo.toggle, {})`
 
 
 General keymappings
