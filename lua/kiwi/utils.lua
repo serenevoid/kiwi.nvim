@@ -50,6 +50,7 @@ end
 utils.ensure_directories = function(config)
   if (config.folders ~= nil) then
     for _, props in ipairs(config.folders) do
+      props.path = props.path:gsub("$HOME", get_home()):gsub("~", get_home())
       create_dirs(props.path)
     end
   else
@@ -94,24 +95,26 @@ utils.is_link = function(cursor, line)
   end
 end
 
-utils.choose_wiki = function (folders, total)
-  local prompt_text = 'Available Wiki:\n'
+utils.choose_wiki = function (folders)
+  local options = {}
   for index, props in pairs(folders) do
-    prompt_text = prompt_text .. index .. ". " .. props.name .. "\n"
+    options[index] = props.name
   end
-  prompt_text = prompt_text .. "Choose wiki (default: 1): "
   local path = ""
-  vim.ui.input(
-    { prompt = prompt_text },
-    function(input)
-      input = tonumber(input)
-      if type(input) ~= "number" or total < (input) then
-        print("\nInvalid index")
-        input = 1
+  vim.ui.select(options, {
+    prompt = 'Select wiki:',
+    format_item = function(item)
+      return item
+    end,
+  }, function(choice)
+      if choice ~= nil then
+        for _, props in pairs(folders) do
+          if choice == props.name then
+            path = props.path
+          end
+        end
       end
-      path = folders[input].path
-    end
-  )
+    end)
   return path
 end
 
@@ -121,8 +124,9 @@ utils.prompt_folder = function (config)
     local count = 0
     for _ in ipairs(config.folders) do count = count + 1 end
     if count > 1 then
-      config.path = utils.choose_wiki(config.folders, count)
-    else
+      config.path = utils.choose_wiki(config.folders)
+    end
+    if config.path == "" then
       config.path = config.folders[1].path
     end
   end
