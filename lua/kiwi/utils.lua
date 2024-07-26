@@ -27,7 +27,7 @@ end
 local create_dirs = function (wiki_path)
   local path = Path:new(wiki_path)
   if not path:exists() then
-    path:mkdir()
+    path:mkdir({parents = true})
   end
 end
 
