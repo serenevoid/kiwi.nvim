@@ -61,8 +61,8 @@ The result should look something like:
 
 ## Screenshots
 
-![custom_note.md](https://i.imgur.com/SRnBTuy.jpg)
-![todo.md](https://i.imgur.com/V6FV9PA.jpg)
+![custom_note.md](https://u.cubeupload.com/serenevoid/6JqlpX.png)
+![todo.md](https://u.cubeupload.com/serenevoid/6JqlpX.png)
 
 ## Installation
 
