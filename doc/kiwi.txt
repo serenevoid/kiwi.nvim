@@ -1,5 +1,4 @@
-kiwi.nvim.txt=================================================================
-
+*kiwi.nvim*====================================================================
 Kiwi, the lean personal wiki for Neovim!
                          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣤⣤⣤⣤⣤⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                          ⠀⠀⠀⠀⠀⠀⢀⣤⣴⡶⣿⣯⣿⣿⣿⣿⣶⣿⢿⣿⣷⣿⣿⣟⣳⢖⠒⠋⠉⠙⠐⠒⠲⠦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -20,11 +19,11 @@ https://github.com/serenevoid/kiwi.nvim/⠀⠀⠀⠀⠉⠛⠿⣿⣿⣿⣷⣿⣿�
 
 =============================================================================
 
-*kiwi.nvim*		for Neovim => 0.7	      last change: 2024-02-25
+kiwi.nvim		for Neovim >= 0.7	      last change: 2024-02-25
 
 Contents
 --------
-- Introduction			                |kiwi|
+- Introduction			                |kiwi.nvim-introduction|
 - Features  				        |kiwi.nvim-features|
 - Usage 					|kiwi.nvim-usage|
 - Settings and configuration     	 	|kiwi.nvim-settings|
@@ -33,7 +32,7 @@ Contents
 
 
 =============================================================================
-Introduction						               *kiwi*
+Introduction					      *kiwi.nvim-introduction*
 
 kiwi.nvim is a personal wiki for Neovim. A wiki is a collection of text
 documents linked together. kiwi.nvim documents are formatted in markdown
@@ -106,7 +105,7 @@ To quickly return to the file from which you followed the hyperlink, you can use
 the standard vim key `<ctrl-o>`.
 
 
-Managing todo items 					*kiwi-todo*
+Managing todo items 					*kiwi.nvim-todo*
 -------------------
 
 Kiwi supports managing todo items. You can change tasks and subtasks by
@@ -209,7 +208,7 @@ In visual mode:
 Installation					     *kiwi.nvim-installation*
 
 kiwi.nvim requires the plenary.nvim plugin to work. Installation of kiwi.nvim
-is possible with the *packages* functionality, copied to the standard
+is possible with the packages functionality, copied to the standard
 application folders, or using a plugin manager. Please see the README file for
 details and examples.
 
