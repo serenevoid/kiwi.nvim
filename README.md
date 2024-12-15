@@ -124,11 +124,11 @@ For [Lazy](https://github.com/folke/lazy.nvim) users,
     opts = {
         {
             name = "work",
-            path = "/home/username/wiki_1"
+            path = "work-wiki"
         },
         {
             name = "personal",
-            path = "/home/username/wiki_2"
+            path = "personal-wiki"
         }
     },
     keys = {
@@ -146,13 +146,14 @@ For others,
 require('kiwi').setup({
     {
         name = "work",
-        path = "C:\\Users\\username\\personal-wiki" -- For Windows users
+        path = "work-wiki"
     },
     {
         name = "personal",
-        path = "/home/username/personal-wiki"
+        path = "personal-wiki"
     }
 })
+-- Note: The path will be created in user home directory
 
 -- Use default path (i.e. ~/wiki/)
 local kiwi = require('kiwi')

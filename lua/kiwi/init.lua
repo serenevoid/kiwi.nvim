@@ -7,7 +7,7 @@ local M = {}
 
 M.todo = todo
 M.utils = utils
-M.VERSION = "0.3.0"
+M.VERSION = "0.4.0"
 
 M.setup = function(opts)
   utils.setup(opts, config)
