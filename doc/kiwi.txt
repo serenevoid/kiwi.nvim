@@ -129,11 +129,12 @@ all subtasks as done, the main task will also be checked.
 =============================================================================
 Settings and configuration      *kiwi.nvim-settings* *kiwi.nvim-configuration*
 
-By default kiwi.nvim will make a wiki in your user home folder in 
+By default kiwi.nvim will make a wiki in your user home directory in 
 
   ~/wiki/index.md
 
-You can set up a custom path to your wikis. You can name your wiki and assign
+You can set up a custom path to your wikis. But keep in mind that these will
+be created within the user home directory. You can name your wiki and assign
 it to a path. Every wiki has a unique name. You can also assign several names
 to the same location. This can be useful to set up the same wiki on both your
 workmachine using Windows and using Linux at home. 
@@ -142,18 +143,14 @@ This is an example:
 
   -- Setup Custom wiki path if required
   require('kiwi').setup({
-      {
-          name = "work",
-          path = "C:\\Users\\username\\personal-wiki" -- For Windows 
-      },
-      {
-          name = "personal",
-          path = "/home/username/personal-wiki"
-      },
-      {
-          name = "blog",
-          path = "/home/username/personal-wiki/blog"
-      }
+    {
+        name = "work",
+        path = "work-wiki"
+    },
+    {
+        name = "personal",
+        path = "personal-wiki"
+    }
   })
   
 Recommended settings

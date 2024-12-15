@@ -1,6 +1,5 @@
 local config = require("kiwi.config")
 local utils = require("kiwi.utils")
-local sep = require("plenary.path").path.sep
 
 local M = {}
 
@@ -19,7 +18,7 @@ M.open_wiki_index = function(name)
       require("kiwi").setup()
     end
   end
-  local wiki_index_path = config.path .. sep .. "index.md"
+  local wiki_index_path = vim.fs.joinpath(config.path, "index.md")
   local buffer_number = vim.fn.bufnr(wiki_index_path, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
   local opts = { noremap = true, silent = true, nowait = true }
@@ -39,7 +38,7 @@ M.create_or_open_wiki_file = function()
   new_mkdn = new_mkdn .. "(./" .. filename .. ")"
   local newline = line[1]:sub(0, selection_start[3] - 1) .. new_mkdn .. line[1]:sub(selection_end[3] + 1, string.len(line[1]))
   vim.api.nvim_set_current_line(newline)
-  local buffer_number = vim.fn.bufnr(config.path .. utils.get_relative_path(config) .. sep .. filename, true)
+  local buffer_number = vim.fn.bufnr(vim.fs.joinpath(config.path, filename), true)
   vim.api.nvim_win_set_buf(0, buffer_number)
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)

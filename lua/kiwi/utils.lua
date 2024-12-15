@@ -1,8 +1,4 @@
-local Path = require("plenary.path")
-
 local utils = {}
-
-local home = ""
 
 -- Setup wiki folder
 utils.setup = function(opts, config)
@@ -14,36 +10,15 @@ utils.setup = function(opts, config)
   utils.ensure_directories(config)
 end
 
--- Get Home path
-local get_home = function()
-  if vim.loop.os_uname().sysname == "Windows_NT"
-  then
-    return require("os").getenv("USERPROFILE") or ""
-  else
-    return require("os").getenv("HOME") or ""
-  end
-end
-
 local create_dirs = function (wiki_path)
-  local path = Path:new(wiki_path)
-  if not path:exists() then
-    path:mkdir({parents = true})
-  end
+  local path = vim.fs.joinpath(vim.loop.os_homedir(), wiki_path)
+  vim.uv.fs_mkdir(path, 448)
 end
 
 -- Get the default Wiki folder path
 utils.get_wiki_path = function()
-  if home == "" then
-    home = get_home()
-  end
-  local default_dir = home .. Path.path.sep .. "wiki"
+  local default_dir = vim.fs.joinpath(vim.loop.os_homedir, "wiki")
   return default_dir
-end
-
--- Get the relative path to the current buffer from the Wiki folder
-utils.get_relative_path =  function (config)
-  local relative_path = vim.fs.dirname(vim.fn.expand('%:p'))
-  return relative_path:gsub(config.path:gsub("\\", "/"), "")
 end
 
 -- Create wiki folder
@@ -94,24 +69,24 @@ utils.is_link = function(cursor, line)
   end
 end
 
-utils.choose_wiki = function (folders, total)
-  local prompt_text = 'Available Wiki:\n'
-  for index, props in pairs(folders) do
-    prompt_text = prompt_text .. index .. ". " .. props.name .. "\n"
-  end
-  prompt_text = prompt_text .. "Choose wiki (default: 1): "
+utils.choose_wiki = function (folders)
   local path = ""
-  vim.ui.input(
-    { prompt = prompt_text },
-    function(input)
-      input = tonumber(input)
-      if type(input) ~= "number" or total < (input) then
-        print("\nInvalid index")
-        input = 1
-      end
-      path = folders[input].path
+  local list = {}
+    for i, props in pairs(folders) do
+      list[i] = props.name
     end
-  )
+  vim.ui.select(list, {
+    prompt = 'Select wiki:',
+    format_item = function(item)
+      return item
+    end,
+  }, function(choice)
+      for _, props in pairs(folders) do
+        if props.name == choice then
+          path = vim.fs.joinpath(vim.loop.os_homedir(), props.path)
+        end
+      end
+  end)
   return path
 end
 
@@ -121,13 +96,10 @@ utils.prompt_folder = function (config)
     local count = 0
     for _ in ipairs(config.folders) do count = count + 1 end
     if count > 1 then
-      config.path = utils.choose_wiki(config.folders, count)
+      config.path = utils.choose_wiki(config.folders)
     else
       config.path = config.folders[1].path
     end
-  end
-  if config.path == "" then
-    utils.setup(nil, config)
   end
 end
 
