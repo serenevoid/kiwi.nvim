@@ -53,7 +53,7 @@ M.open_link = function()
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
     if (filename:sub(1, 2) == "./") then
-      filename = config.path .. utils.get_relative_path(config) .. filename:sub(2, -1)
+      filename = vim.fs.joinpath(config.path, filename:sub(2, -1))
     end
     local buffer_number = vim.fn.bufnr(filename, true)
     if buffer_number ~= -1 then
