@@ -5,18 +5,18 @@ local M = {}
 
 -- Open wiki index file in the current tab
 M.open_wiki_index = function(name)
-  if name == nil then
-    utils.prompt_folder(config)
-  else
-    if config.folders ~= nil then
+  if config.folders ~= nil then
+    if name ~= nil then
       for _, v in pairs(config.folders) do
         if v.name == name then
           config.path = v.path
         end
       end
     else
-      require("kiwi").setup()
+      utils.prompt_folder(config)
     end
+  else
+    require("kiwi").setup()
   end
   local wiki_index_path = vim.fs.joinpath(config.path, "index.md")
   local buffer_number = vim.fn.bufnr(wiki_index_path, true)
