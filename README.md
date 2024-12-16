@@ -71,7 +71,7 @@ versions but will not be officially supported.
 
 ### Dependencies
 
-`kiwi.nvim` has dependency on `nvim-lua/plenary.nvim`.
+`kiwi.nvim` is a standalone plugin.
 
 ### Installation using [Vim-Plug](https://github.com/junegunn/vim-plug)
 
@@ -90,8 +90,7 @@ Then run `:PlugInstall`.
 ```lua
 
 use {
-    'serenevoid/kiwi.nvim', 
-    requires = { {'nvim-lua/plenary.nvim'} }
+    'serenevoid/kiwi.nvim'
 }
 
 ```
@@ -102,12 +101,12 @@ use {
 
 -- init.lua:
 {
-    'serenevoid/kiwi.nvim', dependencies = { 'nvim-lua/plenary.nvim' }
+    'serenevoid/kiwi.nvim'
 }
 
 -- plugins/kiwi.lua:
 return {
-    'serenevoid/kiwi.nvim', dependencies = { 'nvim-lua/plenary.nvim' }
+    'serenevoid/kiwi.nvim'
 }
 
 ```
@@ -118,9 +117,6 @@ For [Lazy](https://github.com/folke/lazy.nvim) users,
 ```lua
 {
     'serenevoid/kiwi.nvim',
-    dependencies = {
-        "nvim-lua/plenary.nvim"
-    },
     opts = {
         {
             name = "work",
