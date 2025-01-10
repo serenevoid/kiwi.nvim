@@ -34,58 +34,55 @@ end
 
 -- Check if the cursor is on a link on the line
 utils.is_link = function(cursor, line)
-  local filename_bounds = {}
-  local found_opening = false
-  for i = cursor[2] + 1, 0, -1 do
-    if (line:sub(i, i) == ")") then
-      return nil
-    end
-    if (line:sub(i, i) == "(") then
-      filename_bounds[1] = i + 1
-      break
-    end
-    if (line:sub(i, i) == "[") then
-      found_opening = true
-      break
+  cursor[2] = cursor[2] + 1 -- because vim counts from 0 but lua from 1
+
+  -- Pattern for [title](file)
+  local pattern1 = "%[(.-)%]%((.-)%)"
+  local start_pos = 1
+  while true do
+    local s, e, _, file = line:find(pattern1, start_pos)
+    if not s then break end
+    start_pos = e + 1 -- Move past the current match
+    if cursor[2] >= s and cursor[2] <= e then
+      return file
     end
   end
-  if not found_opening then
-    return nil
-  end
-  for i = cursor[2] + 2, line:len(), 1 do
-    if (line:sub(i, i) == "[") then
-      return nil
+
+  -- Pattern for [[file]]
+  local pattern2 = "%[%[(.-)%]%]"
+  start_pos = 1
+  while true do
+    local s, e, file = line:find(pattern2, start_pos)
+    if not s then break end
+    start_pos = e + 1 -- Move past the current match
+    if cursor[2] >= s and cursor[2] <= e then
+      if not file:match("%.md$") then
+        file = file .. ".md"
+      end
+      return file
     end
-    if (line:sub(i, i) == "(") then
-      filename_bounds[1] = i + 1
-    end
-    if (line:sub(i, i) == ")") then
-      filename_bounds[2] = i - 1
-      break
-    end
   end
-  if (filename_bounds[1] ~= nil and filename_bounds[2] ~= nil) then
-    return line:sub(unpack(filename_bounds))
-  end
+
+  return nil
 end
 
 utils.choose_wiki = function (folders)
   local path = ""
   local list = {}
-    for i, props in pairs(folders) do
-      list[i] = props.name
-    end
+  for i, props in pairs(folders) do
+    list[i] = props.name
+  end
   vim.ui.select(list, {
     prompt = 'Select wiki:',
     format_item = function(item)
       return item
     end,
   }, function(choice)
-      for _, props in pairs(folders) do
-        if props.name == choice then
-          path = vim.fs.joinpath(vim.loop.os_homedir(), props.path)
-        end
+    for _, props in pairs(folders) do
+      if props.name == choice then
+        path = vim.fs.joinpath(vim.loop.os_homedir(), props.path)
       end
+    end
   end)
   return path
 end
