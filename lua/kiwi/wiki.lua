@@ -52,9 +52,7 @@ M.open_link = function()
   local line = vim.fn.getline(cursor[1])
   local filename = utils.is_link(cursor, line)
   if (filename ~= nil and filename:len() > 1) then
-    if (filename:sub(1, 2) == "./") then
-      filename = vim.fs.joinpath(config.path, filename:sub(2, -1))
-    end
+    filename = utils.resolve_path(filename, config)
     local buffer_number = vim.fn.bufnr(filename, true)
     if buffer_number ~= -1 then
       vim.api.nvim_win_set_buf(0, buffer_number)
