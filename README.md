@@ -125,8 +125,7 @@ For [Lazy](https://github.com/folke/lazy.nvim) users,
         {
             name = "personal",
             path = "personal-wiki"
-        },
-        cd_wiki = false
+        }
     },
     keys = {
         { "<leader>ww", ":lua require(\"kiwi\").open_wiki_index()<cr>", desc = "Open Wiki index" },
@@ -148,8 +147,7 @@ require('kiwi').setup({
     {
         name = "personal",
         path = "personal-wiki"
-    },
-    cd_wiki = false
+    }
 })
 -- Note: The path will be created in user home directory
 

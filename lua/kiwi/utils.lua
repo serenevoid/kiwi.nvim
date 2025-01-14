@@ -2,10 +2,6 @@ local utils = {}
 
 -- Setup wiki folder
 utils.setup = function(opts, config)
-  if opts.cd_wiki ~= nil then
-    config.cd_wiki = opts.cd_wiki
-    opts.cd_wiki = nil
-  end
   if opts ~= nil then
     config.folders = opts
   else
