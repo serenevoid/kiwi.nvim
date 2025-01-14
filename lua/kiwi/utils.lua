@@ -105,4 +105,38 @@ utils.prompt_folder = function(config)
   end
 end
 
+-- function to determine if this is absolute or relative path
+utils.resolve_path = function(filename, config)
+  -- Get the directory of the current file
+  local base_path = vim.fn.expand('%:p:h')
+
+  -- 1. Handle paths starting with `./`, resolve relative to base_path.
+  if filename:sub(1, 2) == "./" then
+    filename = vim.fs.joinpath(base_path, filename:sub(3, -1)) -- Remove './' and join with base_path
+
+    -- 2. Handle relative paths with `../` (move up directories).
+  elseif filename:sub(1, 3) == "../" then
+    -- Keep removing the `../` and moving up the directory
+    while filename:sub(1, 3) == "../" do
+      base_path = vim.fn.fnamemodify(base_path, ":h") -- Move up one directory
+      filename = filename:sub(4, -1)                  -- Remove `../` from the path
+    end
+    -- Check not to go out of this wiki
+    if #base_path < #config.path then
+      base_path = config.path
+    end
+    filename = vim.fs.joinpath(base_path, filename)
+
+    -- 3. Handle absolute paths (start with `/`), return them as-is.
+  elseif filename:sub(1, 1) == "/" then
+    filename = vim.fs.joinpath(config.path, filename:sub(2, -1))
+    return filename -- Absolute path, no need to modify
+  else
+    -- 4. Handle normal relative paths, resolve relative to base_path.
+    filename = vim.fs.joinpath(base_path, filename)
+  end
+
+  return filename
+end
+
 return utils
