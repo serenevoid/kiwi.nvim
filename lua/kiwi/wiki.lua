@@ -21,6 +21,9 @@ M.open_wiki_index = function(name)
   local wiki_index_path = vim.fs.joinpath(config.path, "index.md")
   local buffer_number = vim.fn.bufnr(wiki_index_path, true)
   vim.api.nvim_win_set_buf(0, buffer_number)
+  if (config.change_dir) then
+    vim.api.nvim_set_current_dir(config.path)
+  end
   local opts = { noremap = true, silent = true, nowait = true }
   vim.api.nvim_buf_set_keymap(buffer_number, "v", "<CR>", ":'<,'>lua require(\"kiwi\").create_or_open_wiki_file()<CR>", opts)
   vim.api.nvim_buf_set_keymap(buffer_number, "n", "<CR>", ":lua require(\"kiwi\").open_link()<CR>", opts)
@@ -65,6 +68,12 @@ M.open_link = function()
     end
   else
     vim.print("E: Cannot find file")
+  end
+end
+
+M.set_dir_change = function (change_dir)
+  if change_dir == true then
+    config.change_dir = true
   end
 end
 

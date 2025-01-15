@@ -1,6 +1,7 @@
 local config = {
   path = "",
-  folders = nil
+  folders = nil,
+  change_dir = false
 }
 
 return config

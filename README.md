@@ -132,6 +132,10 @@ For [Lazy](https://github.com/folke/lazy.nvim) users,
         { "<leader>wp", ":lua require(\"kiwi\").open_wiki_index(\"personal\")<cr>", desc = "Open index of personal wiki" },
         { "T", ":lua require(\"kiwi\").todo.toggle()<cr>", desc = "Toggle Markdown Task" }
     },
+    config = function()
+        -- Change to wiki directory on opening kiwi
+        require("kiwi").set_dir_change(true)
+    end,
     lazy = true
 }
 ```
@@ -157,6 +161,9 @@ local kiwi = require('kiwi')
 -- Necessary keybindings
 vim.keymap.set('n', '<leader>ww', kiwi.open_wiki_index, {})
 vim.keymap.set('n', 'T', kiwi.todo.toggle, {})
+
+-- Change to wiki directory on opening kiwi
+kiwi.set_dir_change(true)
 ```
 
 ## Key bindings
