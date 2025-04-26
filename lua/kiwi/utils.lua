@@ -55,7 +55,7 @@ utils.is_link = function(cursor, line)
     if not match_start then break end
     start_pos = match_end + 1 -- Move past the current match
     file = utils._is_cursor_on_file(cursor, file, match_start, match_end)
-    if file then return file end
+    if file then return "./" .. file end
   end
 
   return nil
