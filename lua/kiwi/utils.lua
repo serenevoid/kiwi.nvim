@@ -85,7 +85,12 @@ utils.choose_wiki = function(folders)
   }, function(choice)
     for _, props in pairs(folders) do
       if props.name == choice then
-        path = vim.fs.joinpath(vim.loop.os_homedir(), props.path)
+        -- Check if is a path or just a name
+        if vim.loop.fs_realpath(props.path) then
+          path = props.path
+        else
+          path = vim.fs.joinpath(vim.loop.os_homedir(), props.path)
+        end
       end
     end
   end)
