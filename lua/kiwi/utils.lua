@@ -2,35 +2,56 @@ local utils = {}
 
 -- Setup wiki folder
 utils.setup = function(opts, config)
-  if opts ~= nil then
-    config.folders = opts
-  else
-    config.path = utils.get_wiki_path()
-  end
-  utils.ensure_directories(config)
+	if opts and #opts > 0 then
+		config.folders = opts
+	else
+		config.path = utils.get_wiki_path()
+		config.folders = nil -- Clear folders to ensure consistent state.
+	end
+	utils.ensure_directories(config)
 end
 
-local create_dirs = function(wiki_path)
-  local path = vim.fs.joinpath(vim.loop.os_homedir(), wiki_path)
-  vim.uv.fs_mkdir(path, 448)
+-- Resolves a path string from the config into a full, absolute path.
+-- @param path_str (string): The path from the configuration (e.g., "wiki" or "~/notes/wiki").
+-- @return (string): The resolved absolute path.
+local resolve_path = function(path_str)
+	if not path_str or path_str == "" then
+		return nil
+	end
+
+	local expanded_path = vim.fn.expand(path_str)
+
+	if vim.fn.isdirectory(expanded_path) == 1 then
+		return expanded_path
+	end
+
+	expanded_path = vim.fs.joinpath(vim.loop.os_homedir(), path_str)
+	if vim.fn.isdirectory(expanded_path) == 1 then
+	else
+		pcall(vim.fn.mkdir, expanded_path, "p")
+		vim.notify("  " .. expanded_path .. " is created.", vim.log.levels.WARN)
+	end
+	return expanded_path
 end
+
 
 -- Get the default Wiki folder path
 utils.get_wiki_path = function()
-  local default_dir = vim.fs.joinpath(vim.loop.os_homedir(), "wiki")
-  return default_dir
+	local default_dir = vim.fs.joinpath(vim.loop.os_homedir(), "wiki")
+	return default_dir
 end
 
 -- Create wiki folder
 utils.ensure_directories = function(config)
-  if (config.folders ~= nil) then
-    for _, props in ipairs(config.folders) do
-      create_dirs(props.path)
-    end
-  else
-    create_dirs(config.path)
-  end
+	if config.folders ~= nil then
+		for _, props in ipairs(config.folders) do
+			props.path = resolve_path(props.path)
+		end
+	else
+		config.path = resolve_path(config.path)
+	end
 end
+
 
 -- Check if the cursor is on a link on the line
 utils.is_link = function(cursor, line)
