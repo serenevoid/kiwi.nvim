@@ -113,10 +113,6 @@ end
 -- @param path_str (string): The path from the configuration
 -- @return (string): The resolved absolute path.
 utils.resolve_path = function(filename, config)
-  if not filename or filename == "" then
-    return nil
-  end
-
   local expanded_path = vim.fn.expand(filename)
   if vim.fn.isdirectory(expanded_path) == 1 then
     return expanded_path
